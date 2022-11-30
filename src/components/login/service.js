@@ -1,11 +1,6 @@
 import axios from "axios";
 import { API_PATHS } from "../../config/api-paths";
 
-// const appRequest = axios.create({
-//   baseURL: process.env.NEXT_PUBLIC_API_HOST,
-//   timeout: 30000,
-// });
-
 export const test = (params) => {
   const url = API_PATHS.login;
   axios
