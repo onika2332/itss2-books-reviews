@@ -15,6 +15,7 @@ function Login() {
     setAccount({ ...values });
     fetchAPIUser();
     console.log("Success:", values);
+    navigate(PATHS.home);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
