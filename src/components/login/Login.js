@@ -1,12 +1,15 @@
 import { Button, Divider, Form, Input } from "antd";
 import { Anchor } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../config/paths";
 import { test1 } from "./service";
 import styles from "./styles.module.scss";
 
 const { Link } = Anchor;
 function Login() {
   const [account, setAccount] = useState({});
+  const navigate = useNavigate();
 
   const onFinish = (values) => {
     setAccount({ ...values });
@@ -94,7 +97,15 @@ function Login() {
         <Divider />
         <div>
           <span>新しいアカウント</span>
-          <Button className={styles.btnSignUp} type="primary">
+          <Button 
+            className={styles.btnSignUp}
+            type="primary"
+            onClick={
+              () => {
+                  navigate(PATHS.signup);
+              }
+            }
+          >
             登録
           </Button>
         </div>

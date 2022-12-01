@@ -25,3 +25,8 @@ export const test1 = (params) => {
   //   console.log(res);
   // });
 };
+
+export const testSignup = (params) => {
+  const signupURL = API_PATHS.signup;
+  return axios.post(signupURL, params);
+}

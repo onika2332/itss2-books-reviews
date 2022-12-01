@@ -2,6 +2,7 @@ import "antd/dist/reset.css";
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import "./App.scss";
 import Login from "./components/login/Login";
+import Signup from "./components/Signup";
 import { PATHS } from "./config/paths";
 
 function App() {
@@ -19,6 +20,10 @@ function App() {
       path: PATHS.login,
       element: <Login />,
     },
+    {
+      path: PATHS.signup,
+      element: <Signup />,
+    }
   ]);
 
   return (
