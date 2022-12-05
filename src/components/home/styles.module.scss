@@ -1,0 +1,40 @@
+.intro {
+  margin: 10px;
+  font-size: 2rem;
+  span {
+  }
+  span + span {
+    margin-left: 2rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+}
+.btnFilter {
+  padding: 10px 20px;
+  height: auto;
+  margin-bottom: 1.2rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  min-width: 8rem;
+}
+.listBooks {
+  overflow: hidden;
+  .bookItem {
+    img {
+      width: 100%;
+    }
+    span {
+      display: block;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+  }
+  // width: 100%;
+}
+
+.pagination {
+  margin-top: 2rem;
+  text-align: center;
+}
