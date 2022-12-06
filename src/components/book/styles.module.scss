@@ -1,0 +1,44 @@
+.container {
+    background: url("./../../../public/background.png");
+    background-size: cover;
+    padding-top: 3%;
+    padding-left: 5%;
+    .bookName {
+      font-weight: bold;
+      margin-bottom: 0.25em;
+    }
+    .ratingNumber {
+      margin-left: 5px;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    .details {
+      margin-top: 20px;
+      background-color: aqua;
+    }
+    .commentTitle {
+      font-weight: bold;
+      margin-top: 1em;
+      margin-bottom: 0.25em;
+    }
+    .listComment {
+      margin-left: 2em;
+
+      .listCommentItem {
+        background-color: blueviolet;
+      }
+    }
+    .relatedBooksTitle {
+      font-weight: bold;
+      text-align: center;
+    }
+    .relatedBook {
+      width: 200px;
+      margin: auto;
+      .relatedBookImage {
+        display: flex !important;
+        margin: auto !important;
+      }
+    }
+  }
+  

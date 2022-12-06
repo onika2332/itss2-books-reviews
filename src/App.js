@@ -4,6 +4,7 @@ import "./App.scss";
 import Homepage from "./components/home/Homepage";
 import Login from "./components/login/Login";
 import Signup from "./components/Signup";
+import BookDetails from "./components/book/BookDetails";
 import { PATHS } from "./config/paths";
 
 function App() {
@@ -28,6 +29,10 @@ function App() {
     {
       path: PATHS.home,
       element: <Homepage />,
+    },
+    {
+      path: PATHS.bookDetails,
+      element: <BookDetails/>
     }
   ]);
 

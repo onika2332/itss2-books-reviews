@@ -3,4 +3,5 @@ export const PATHS = {
   login: "/login",
   signup: "/signup",
   home: "/home",
+  bookDetails: "/book-details"
 };
