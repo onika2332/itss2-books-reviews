@@ -40,5 +40,33 @@
         margin: auto !important;
       }
     }
+    .CompareBook {
+      width: 300px;
+      margin: auto;
+      .CompareBookImage {
+        display: flex !important;
+        margin: auto !important;
+      }
+      .ComparebookTitle {
+        font-weight: bold;
+        margin-top: 1em;
+      }
+    }
+    .CompareTable {
+      margin-top: 3em;
+      margin-right: 5em;
+    }
+    .CompareCommentTitle {
+      font-weight: bold;
+      text-align: center;
+      color: white;
+    }
+    .CompareListComment {
+      margin-left: 0em;
+      width: 90%;
+      .CompareListCommentItem {
+        background-color: blueviolet;
+      }
+    }
   }
   

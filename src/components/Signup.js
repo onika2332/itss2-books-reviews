@@ -93,16 +93,16 @@ function Signup() {
                     span: 16,
                 }}
                 >
-                    <Button className={styles.btnLogin} type="primary" htmlType="submit">
+                    <Button className={styles.btnSignUpPage} type="primary" htmlType="submit">
                         サインアップ
                     </Button>
                 </Form.Item>
                 
-                <Divider />
+                <Divider style={{marginTop: '50px'}}/>
                 <div>
-                <span>アカウントを持っています？ ログイン</span>
+                <span>アカウントを持っています？</span>
                 <Button 
-                    className={styles.btnLogin} 
+                    className={styles.btnSignUp} 
                     type="primary"
                     onClick={
                         () => {

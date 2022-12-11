@@ -17,6 +17,7 @@ function TopPage() {
         textAlign: 'center',
         backgroundImage: `url("./N30007_tuvung.jpg")`,
         paddingTop: '400px',
+        backgroundPosition: 'center',
         backgroundSize: '500px 600px',
         backgroundRepeat: 'no-repeat',
       };
