@@ -6,6 +6,7 @@ import Homepage from "./components/home/Homepage";
 import Login from "./components/login/Login";
 import Signup from "./components/Signup";
 import BookDetails from "./components/book/BookDetails";
+import ComparingBooks from "./components/book/ComparingBooks";
 import { PATHS } from "./config/paths";
 
 function App() {
@@ -29,6 +30,10 @@ function App() {
     {
       path: PATHS.bookDetails,
       element: <BookDetails/>
+    },
+    {
+      path: PATHS.ComparingBooks,
+      element: <ComparingBooks/>
     }
   ]);
 
