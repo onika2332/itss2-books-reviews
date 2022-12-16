@@ -1,6 +1,8 @@
-import { Button, Divider, Form, Input } from "antd";
+import { Button, Divider, Form, Input, notification } from "antd";
+import axios from "axios";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_PATHS } from "../config/api-paths";
 import { PATHS } from "../config/paths";
 import { testSignup } from "./login/service";
 import styles from "./login/styles.module.scss";
@@ -10,11 +12,33 @@ function Signup() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
-    const onFinish = (value) => {
-        setAccount({ ...value });
-        fetchAPIUser();
+    const onFinish = async (value) => {
+       
         console.log("Success:",value);
-        setMessage("");
+       
+       
+        let url = API_PATHS.signup;
+       
+        await axios.post(url,value,{
+            headers: {
+                // 'application/json' is the modern content-type for JSON, but some
+                // older servers may use 'text/json'.
+                // See: http://bit.ly/text-json
+                'content-type': 'application/json'
+              }
+        }).then(res => {
+            notification.success({
+            message: " Signup success!",
+            duration: 1.5
+        })
+            navigate("/login");
+        }).catch(err => 
+            {
+                notification.error({
+                    message: "Signup failed!",
+                    duration: 1.5
+                })
+            })
     }
 
     const onFinishFailed = (error) => {
@@ -22,22 +46,6 @@ function Signup() {
         setMessage("間違ったメールまたはパスワード");
     }
 
-    const fetchAPIUser = useCallback(
-        () => {
-            testSignup(account)
-                .then(
-                    (res) => {
-                        console.log(res);
-                    }
-                )
-                .catch(
-                    (error) => {
-                        console.log(error);
-                    }
-                )
-        },
-        [account]
-    );
 
     return (
         <div className={styles.container}>
