@@ -1,23 +1,44 @@
 import { Button, Col, Divider, Layout, Menu, Pagination, Row } from "antd";
 import styles from "./styles.module.scss";
+import { getBooks } from "../book/service";
+import { data } from "flickity";
+import { useEffect, useState } from "react";
+import { BOOK_API_PATH } from "../../config/api-paths";
+import axios from "axios";
 const { Header, Sider, Content } = Layout;
 
-const BookItem = () => {
+const BookItem = ({book}) => {
+  console.log(book);
   return (
     <Col className={styles.bookItem} span={5}>
       <div className={styles.bookImg}>
         <img
-          src="https://vn-test-11.slatic.net/p/538a805a2f6398b432767118af9ccb66.jpg"
+          src={book.image_url!=null ? book.image_url :"https://vn-test-11.slatic.net/p/538a805a2f6398b432767118af9ccb66.jpg"}
           alt="book-item"
         ></img>
       </div>
       <Divider />
-      <span>Book name</span>
+      <span>{book.name}</span>
     </Col>
   );
 };
 
 function Homepage() {
+  const [books,setBooks] = useState([]);
+
+  useEffect(() => {
+    getBooks()
+  },[])
+
+  const getBooks =async (filter) => {
+    await axios.get(BOOK_API_PATH.book)
+        .then(data => data.data)
+        .then(data => {
+          setBooks(data.books)
+        })
+        .catch(err => console.log(err))
+  }
+ 
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -64,10 +85,9 @@ function Homepage() {
           {/* <Slider /> */}
           <p>Here, list of book</p>
           <Row className={styles.listBooks} gutter={20}>
-            <BookItem />
-            <BookItem />
-            <BookItem />
-            <BookItem />
+            {
+              books.length !=0 ? books.map(book => <BookItem book={book}/>) : <h1>Loading...</h1>
+            }
           </Row>
           <Pagination
             className={styles.pagination}

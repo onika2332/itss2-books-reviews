@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
 import { Button, Tooltip } from 'antd';
 import { Image, Avatar } from 'antd';
@@ -7,29 +7,58 @@ import { Card  } from 'antd';
 import { LeftOutlined, UserOutlined} from '@ant-design/icons';
 import { Table } from 'antd';
 import styles from "./styles.module.scss";
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
+import { API_PATHS, BOOK_API_PATH, COMMENT_API_PATH } from '../../config/api-paths';
 
 function ComparingBooks() {
     const [rating] = useState(3);
-    const dataSource = [
-        {
-          key: '1',
-          name: '耳から覚える　N3　語彙',
-          price: '100.000 VND',
-          time: '6ヶ月',
-          category: '単語の種類別に分類'
-        },
-        {
-          key: '2',
-          name: '新完全マスター語彙　N3',
-          price: '125.000 VND',
-          time: '6ヶ月',
-          category: '単語のトピックに分類'
-        },
-      ];
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [books,setBooks]= useState([])
+    const [comments,setComments]= useState([])
+    const bookId1= searchParams.get("book1")
+    const bookId2= searchParams.get("book2")
+
+    useEffect(()=>{
+        fetchData();
+      
+    },[])
+
+    const fetchData = async () =>
+    {
+        await axios.get(BOOK_API_PATH.compare+"?book1="+bookId1+"&book2="+bookId2)
+        .then(data => data.data)
+        .then(data => { 
+             console.log(data);
+             setBooks([data.book_1,data.book_2])
+        }).catch(error => console.log(error))
+
+        console.log("TO heare");
+        let endpoints = [
+            COMMENT_API_PATH.comment+"?bookId="+bookId1,
+            COMMENT_API_PATH.comment+"?bookId="+bookId2
+          ];
+
+         axios.all(endpoints.map(async (endpoint) => await axios.get(endpoint).then(data=>data.data).then(data => data.comments))).then(
+            (data) => {
+                console.log(data);
+                setComments(data)}
+          );
+    }
+    
+    const dataSource = books.map((book,index) => {
+        return {
+            key: index,
+            name: book.name,
+            price: book.price+" 円",
+            time: book.time_to_learn + "ヶ月    ",
+            category: book.category
+        }
+     })
       
       const columns = [
         {
-          title: '',
+          title: '本タイトル',
           dataIndex: 'name',
           key: 'name',
         },
@@ -50,7 +79,9 @@ function ComparingBooks() {
           },
       ];
     return (
-        <div className={styles.container}>
+        <div>
+            {books.length != 0 ? 
+            <div className={styles.container}>
             <Row className='Book'>
                 <Col span={12}>
                     <Tooltip title="戻る">
@@ -63,12 +94,12 @@ function ComparingBooks() {
                                 height={200}
                                 className={styles.CompareBookImage}
                                 src="error"
-                                fallback="data:image/png;base64,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"
+                                fallback={books[0].image_url}
                             />
                             <br/>
-                            <h2 className={styles.ComparebookTitle}>耳から覚える　N3 文法</h2>
-                            <Rate value={rating} disabled/>
-                            <h3> 4.1 </h3>
+                            <h2 className={styles.ComparebookTitle}>{books[0].name}</h2>
+                            <Rate value={books[0].star} disabled/>
+                            <h3> {books[0].star} </h3>
                         </Card>
                     </div>
                 </Col>
@@ -80,56 +111,65 @@ function ComparingBooks() {
                                 height={200}
                                 className={styles.CompareBookImage}
                                 src="error"
-                                fallback="data:image/png;base64,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"
+                                fallback={books[1].image_url}
                             />
                             <br/>
-                            <h2 className={styles.ComparebookTitle}>耳から覚える　N3 文法</h2>
-                            <Rate value={rating} disabled/>
-                            <h3> 4.1 </h3>
+                            <h2 className={styles.ComparebookTitle}>{books[1].name}</h2>
+                            <Rate value={books[1].star} disabled/>
+                            <h3> {books[1].star} </h3>
                         </Card>
                     </div>
                 </Col>
             </Row>
             <Table dataSource={dataSource} columns={columns} className={styles.CompareTable} />;
             <h1 className={styles.CompareCommentTitle}>コメント</h1>
+           {
+            comments.length != 0 ? 
             <Row>
-                <Col span={12}>
-                    <div className='Comment'>
-                        <div className={styles.CompareListComment}>
-                            <Card className={styles.CompareListCommentItem}>
-                                <Row>
-                                    <Col span={4}>
-                                        <Avatar size="large" icon={<UserOutlined />} />
-                                    </Col>
-                                    <Col span={20}>
-                                        <h3>Nguyen Minh Hieu</h3>
-                                        <p> This is a very nice book</p>
-                                    </Col>
-                                </Row>
-                            </Card>
-                        </div>
+            <Col span={12}>
+                <div className='Comment'>
+                    <div className={styles.CompareListComment}>
+                        <Card className={styles.CompareListCommentItem}>
+                           {comments[0].length != 0 ? comments[0].map((comment,index) =>  
+                            <Row key={index}>
+                                <Col span={4}>
+                                    <Avatar size="large" icon={<UserOutlined />} />
+                                </Col>
+                                <Col span={20}>
+                                    <h3>{comment.created_by}</h3>
+                                    <p> {comment.content}</p>
+                                </Col>
+                            </Row>): <h1> No comment available!</h1>}
+                        </Card>
                     </div>
-                </Col>
-                <Col span={12}>
-                    <div className='Comment'>
-                        <div className={styles.CompareListComment}>
-                            <Card className={styles.CompareListCommentItem}>
-                                <Row>
-                                    <Col span={4}>
-                                        <Avatar size="large" icon={<UserOutlined />} />
-                                    </Col>
-                                    <Col span={20}>
-                                        <h3>Nguyen Minh Hieu</h3>
-                                        <p> This is a very nice book</p>
-                                    </Col>
-                                </Row>
-                            </Card>
-                        </div>
+                </div>
+            </Col>
+            <Col span={12}>
+                <div className='Comment'>
+                    <div className={styles.CompareListComment}>
+                        <Card className={styles.CompareListCommentItem}>
+                            {comments[1].length != 0 ? comments[1].map((comment,index)=>
+                                <Row key={index}>
+                                <Col span={4}>
+                                    <Avatar size="large" icon={<UserOutlined />} />
+                                </Col>
+                                <Col span={20}>
+                                    <h3>{comment.created_by}</h3>
+                                    <p> {comment.content}</p>
+                                </Col>
+                            </Row>): <h1>No comment available!</h1>
+                            }
+                        </Card>
                     </div>
-                </Col>
-            </Row>
+                </div>
+            </Col>
+        </Row> :
+        <h1>Loading comment....</h1>
+           }
 
+        </div>: <h1>Loading...</h1>}
         </div>
+        
     )
 }
 
