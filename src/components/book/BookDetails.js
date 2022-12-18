@@ -14,6 +14,7 @@ function BookDetails() {
   const navigate = useNavigate();
   const { TextArea } = Input;
   const [rating, setRating] = useState(null);
+  const [isRated, setIsRated] = useState(null);
   const [rateInput, setRateInput] = useState(null);
   const [isRatingModelOpen, setIsRatingModalOpen] = useState(false);
   const [book, setBook] = useState(null)
@@ -33,6 +34,7 @@ function BookDetails() {
   useEffect(() => {
     fetchBook();
     fetchComment();
+    fetchIsRated();
   }, [])
 
   const showRatingModal = () => {
@@ -43,6 +45,7 @@ function BookDetails() {
       "book-id": bookId,
       "star": rateInput,
     }, config)
+      .then(() => fetchBook())
     setIsRatingModalOpen(false);
   };
   const handleRatingCancel = () => {
@@ -78,6 +81,13 @@ function BookDetails() {
       .catch(err => console.log(err))
 
   }
+  const fetchIsRated = async () => {
+    await axios.get(BOOK_API_PATH.rated + "?bookId="+ bookId, config)
+      .then(data => data.data)
+      .then(data => {
+        setIsRated(data)
+      })
+  }
   const params = {
     "book-id": bookId,
     "content": commentInput,
@@ -108,11 +118,11 @@ function BookDetails() {
               <div style={{ marginTop: '10px' }}>
                 <h1>{book.price} 円</h1>
               </div>
-              <Button shape="circle" icon={<HeartOutlined />} />
-              <Button shape="circle" icon={<HeartFilled />} />
+              {/* <Button shape="circle" icon={<HeartOutlined />} />
+              <Button shape="circle" icon={<HeartFilled />} /> */}
               <br />
               {/* disable if user already rate */}
-              <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal}>レーティング</Button>
+              <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal} disabled={isRated}>レーティング</Button>
               <Modal title="レーティング" open={isRatingModelOpen} onOk={handleRating} onCancel={handleRatingCancel}>
                 {/* user rate here */}
                 <Rate value={rateInput} onChange={(e) => setRateInput(e)} />
