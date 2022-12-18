@@ -4,6 +4,6 @@ export const PATHS = {
   signup: "/signup",
   home: "/home",
   bookDetails: "/book-details/:bookId",
-  ComparingBooks: "/comparing-books" // Tôi muốn truyền query param ở đây
-                                      // Kiểu /comparing-books?book1=1&book2=2
+  comparingBooks: "/comparing-books", // Tôi muốn truyền query param ở đây Kiểu /comparing-books?book1=1&book2=2
+  compare: "/compare",
 };

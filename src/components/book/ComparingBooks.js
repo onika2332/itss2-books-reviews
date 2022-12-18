@@ -9,20 +9,22 @@ import { Table } from 'antd';
 import styles from "./styles.module.scss";
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { API_PATHS, BOOK_API_PATH, COMMENT_API_PATH } from '../../config/api-paths';
+import { BOOK_API_PATH, COMMENT_API_PATH } from '../../config/api-paths';
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../config/paths";
 
 function ComparingBooks() {
-    const [rating] = useState(3);
     const [searchParams, setSearchParams] = useSearchParams()
     const [books,setBooks]= useState([])
     const [comments,setComments]= useState([])
     const bookId1= searchParams.get("book1")
     const bookId2= searchParams.get("book2")
+    const navigate = useNavigate();
 
     useEffect(()=>{
         fetchData();
       
-    },[])
+    }, [])
 
     const fetchData = async () =>
     {
@@ -80,12 +82,16 @@ function ComparingBooks() {
       ];
     return (
         <div>
-            {books.length != 0 ? 
+            {books.length !== 0 ? 
             <div className={styles.container}>
             <Row className='Book'>
                 <Col span={12}>
                     <Tooltip title="戻る">
-                        <Button type="primary" shape="circle" icon={<LeftOutlined />} />
+                        <Button type="primary" shape="circle" icon={<LeftOutlined />} onClick={
+                            () => {
+                                navigate(PATHS.home);
+                            }
+                        }/>
                     </Tooltip>
                     <div className="site-card-border-less-wrapper">
                         <Card bordered={false} className={styles.CompareBook}>
@@ -124,13 +130,13 @@ function ComparingBooks() {
             <Table dataSource={dataSource} columns={columns} className={styles.CompareTable} />;
             <h1 className={styles.CompareCommentTitle}>コメント</h1>
            {
-            comments.length != 0 ? 
+            comments.length !== 0 ? 
             <Row>
             <Col span={12}>
                 <div className='Comment'>
                     <div className={styles.CompareListComment}>
                         <Card className={styles.CompareListCommentItem}>
-                           {comments[0].length != 0 ? comments[0].map((comment,index) =>  
+                           {comments[0].length !== 0 ? comments[0].map((comment,index) =>  
                             <Row key={index}>
                                 <Col span={4}>
                                     <Avatar size="large" icon={<UserOutlined />} />
@@ -148,7 +154,7 @@ function ComparingBooks() {
                 <div className='Comment'>
                     <div className={styles.CompareListComment}>
                         <Card className={styles.CompareListCommentItem}>
-                            {comments[1].length != 0 ? comments[1].map((comment,index)=>
+                            {comments[1].length !== 0 ? comments[1].map((comment,index)=>
                                 <Row key={index}>
                                 <Col span={4}>
                                     <Avatar size="large" icon={<UserOutlined />} />

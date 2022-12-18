@@ -1,4 +1,4 @@
-export const base_url = "http://localhost:8080/api";
+export const base_url = "http://localhost:8000/api";
 
 export const API_PATHS = {
   login: `${base_url}/user/login`,
@@ -8,7 +8,8 @@ export const API_PATHS = {
 
 export const BOOK_API_PATH = {
   book: `${base_url}/book`,
-  compare:`${base_url}/book/compare`
+  compare:`${base_url}/book/compare`,
+  rating: `${base_url}/book/rating`,
 }
 
 export const COMMENT_API_PATH = {
