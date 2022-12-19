@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Layout, Menu } from "antd";
 import {
   ContainerOutlined,
@@ -8,13 +8,45 @@ import {
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
 import { Select, Button } from 'antd';
-const { Header, Sider, Content } = Layout;
+import axios from "axios";
+import { BOOK_API_PATH } from "../../config/api-paths";
 
+const { Header, Sider, Content } = Layout;
 function Compare() {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const [books,setBooks] = useState([]);
   const [book1, setBook1] = useState();
   const [book2, setBook2] = useState();
+  useEffect(() => {
+    getBooks(0, 25)
+  },[])
+
+  const getBooks = async (page, size, level, category, text, minPrice, maxPrice ) => {
+    await axios.get(BOOK_API_PATH.book, { 
+      params:{
+        page: page,
+        size: size,
+        level: level,
+        category: category,
+        text: text,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+      }
+    })
+        .then(data => data.data)
+        .then(data => {
+          let list_option = []
+          for (const item of data.books) {
+            list_option.push({
+              label: item.name,
+              value: item.id
+            })
+          }
+          setBooks(list_option)
+        })
+        .catch(err => console.log(err))
+  }
   function getItem(label, key, icon, url, children, type) {
     return {
       key,
@@ -65,39 +97,13 @@ function Compare() {
               }
             }
             placeholder="本１"
-            options={[
-              {
-                value: '1',
-                label: 'Book 1',
-              },
-              {
-                value: '2',
-                label: 'Book 2',
-              },
-              {
-                value: '3',
-                label: 'Book 3',
-              },
-            ]}
+            options={books}
           />
           <Select
             style={{ width: 500 }}
             onChange={(value) => {setBook2(value)}}
             placeholder="本2"
-            options={[
-              {
-                value: '1',
-                label: 'Book 1',
-              },
-              {
-                value: '2',
-                label: 'Book 2',
-              },
-              {
-                value: '3',
-                label: 'Book 3',
-              },
-            ]}
+            options={books}
           />
           <Button disabled={book1 === undefined || book2 === undefined} onClick={() => {
             navigate({

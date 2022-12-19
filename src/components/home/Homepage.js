@@ -47,7 +47,7 @@ function Homepage() {
   const [maxPrice,setmaxPrice] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   useEffect(() => {
-    getBooks(1, 8)
+    getBooks(0, 8)
   },[])
 
   const getBooks = async (page, size, level, category, text, minPrice, maxPrice ) => {
