@@ -21,6 +21,7 @@ function TopPage() {
         backgroundSize: '500px 600px',
         backgroundRepeat: 'no-repeat',
       };
+
     return ( 
         <Layout>
             <Header>

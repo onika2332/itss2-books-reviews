@@ -2,10 +2,8 @@ FROM node as build
 
 WORKDIR /app
 
-COPY package.json .
-ARG NODE_ENV
 
-ENV NODE_ENV ${NODE_ENV}
+COPY package.json .
 
 RUN npm install --force
 
@@ -13,17 +11,29 @@ COPY . .
 
 RUN npm run build
 
+
 FROM nginx
 
 WORKDIR /usr/share/nginx/html
 
-RUN rm -rf ./*
+# Nginx Config
+RUN rm -rf /etc/nginx/conf.d
+
+COPY conf /etc/nginx
 
 COPY --from=build /app/build .
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 EXPOSE 80
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# Copy .env file and shell script to container
+#WORKDIR /usr/share/nginx/html
+#COPY ./env.sh .
+#COPY .env .
+#
+## Make our shell script executable
+#RUN chmod +x env.sh
+
+# Start Nginx server
+CMD [ "nginx", "-g","daemon off;"]
+
 

@@ -7,6 +7,7 @@ import Login from "./components/login/Login";
 import Signup from "./components/Signup";
 import BookDetails from "./components/book/BookDetails";
 import ComparingBooks from "./components/book/ComparingBooks";
+import Compare from "./components/book/Compare";
 import { PATHS } from "./config/paths";
 
 function App() {
@@ -32,8 +33,12 @@ function App() {
       element: <BookDetails/>
     },
     {
-      path: PATHS.ComparingBooks,
+      path: PATHS.comparingBooks,
       element: <ComparingBooks/>
+    },
+    {
+      path: PATHS.compare,
+      element: <Compare/>
     }
   ]);
 
