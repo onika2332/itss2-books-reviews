@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Button, Tooltip, Modal, Input, Image, Avatar, Rate, Card } from 'antd';
-import { LeftOutlined, UserOutlined, HeartOutlined, HeartFilled, StarFilled } from '@ant-design/icons';
+import { LeftOutlined, UserOutlined, HeartOutlined, HeartFilled, StarFilled, DeleteOutlined } from '@ant-design/icons';
 import styles from "./styles.module.scss";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -8,7 +8,6 @@ import { BOOK_API_PATH, COMMENT_API_PATH } from '../../config/api-paths';
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
 import { useAuth } from "../../hooks/useAuth"
-
 function BookDetails() {
 
   const navigate = useNavigate();
@@ -98,6 +97,18 @@ function BookDetails() {
         fetchComment()
       )
   }
+
+  const deleteComment = async (commentId) => {
+    await axios.delete(`${COMMENT_API_PATH.comment}/${commentId}`, {
+      headers: {
+        'content-type': 'application/json',
+        'authorization': 'Bearer ' + token,
+      },
+    })
+      .then(() => 
+        fetchComment()
+      )
+  }
   return (
     <Row className={styles.container}>
       {book !== null ? <Col span={18}>
@@ -146,6 +157,7 @@ function BookDetails() {
                 <Col span={20}>
                   <h3>{comment.created_by}</h3>
                   <p>{comment.content} </p>
+                  {user === comment.created_by && <Button type="primary" danger className={styles.deleteCommentButton} icon={<DeleteOutlined />} onClick={() => deleteComment(comment.id)}></Button>}
                 </Col>
               </Row>
             </Card>)}
