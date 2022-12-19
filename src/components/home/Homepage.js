@@ -32,6 +32,7 @@ const BookItem = ({book}) => {
       </div>
       <Divider />
       <span>{book.name}</span>
+      {/* <span>{book.price}円 ー {book.star / book.rate_times}</span> */}
     </Col>
   );
 };
@@ -47,7 +48,7 @@ function Homepage() {
   const [maxPrice,setmaxPrice] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   useEffect(() => {
-    getBooks(1, 8)
+    getBooks(0, 8)
   },[])
 
   const getBooks = async (page, size, level, category, text, minPrice, maxPrice ) => {
@@ -112,8 +113,6 @@ function Homepage() {
         >
           <div className={styles.intro}>
             <span className={styles.title}>本一覧</span>
-            <br/>
-            <span className={styles.content}>ホーム、本一覧</span>
           </div>
           <Input style={{ width: 150 }} placeholder="テキスト" value={text} onChange={ (e) => {
             setText(e.target.value)
@@ -179,7 +178,6 @@ function Homepage() {
           <Button type="primary" onClick={() => {
             getBooks(0, 8, level, category, text, minPrice, maxPrice)
           }}>フィルター</Button>
-          <p>Here, list of book</p>
           <Row className={styles.listBooks} gutter={20}>
             {
               books.length !== 0 ? books.map(book => <BookItem book={book} />) : <h1>Loading...</h1>
