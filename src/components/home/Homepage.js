@@ -112,8 +112,6 @@ function Homepage() {
         >
           <div className={styles.intro}>
             <span className={styles.title}>本一覧</span>
-            <br/>
-            <span className={styles.content}>ホーム、本一覧</span>
           </div>
           <Input style={{ width: 150 }} placeholder="テキスト" value={text} onChange={ (e) => {
             setText(e.target.value)
