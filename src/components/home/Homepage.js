@@ -179,7 +179,6 @@ function Homepage() {
           <Button type="primary" onClick={() => {
             getBooks(0, 8, level, category, text, minPrice, maxPrice)
           }}>フィルター</Button>
-          <p>Here, list of book</p>
           <Row className={styles.listBooks} gutter={20}>
             {
               books.length !== 0 ? books.map(book => <BookItem book={book} />) : <h1>Loading...</h1>
