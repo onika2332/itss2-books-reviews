@@ -32,6 +32,7 @@ const BookItem = ({book}) => {
       </div>
       <Divider />
       <span>{book.name}</span>
+      {/* <span>{book.price}円 ー {book.star / book.rate_times}</span> */}
     </Col>
   );
 };
