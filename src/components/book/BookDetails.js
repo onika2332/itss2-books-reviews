@@ -44,7 +44,10 @@ function BookDetails() {
       "book-id": bookId,
       "star": rateInput,
     }, config)
-      .then(() => fetchBook())
+      .then(() => {
+        fetchBook()
+        fetchIsRated()
+      })
     setIsRatingModalOpen(false);
   };
   const handleRatingCancel = () => {
@@ -56,7 +59,9 @@ function BookDetails() {
       .then(data => data.data)
       .then(data => {
         setBook(data.books[0])
-        setRating(data.books[0].star)
+        if(  data.books[0].rate_times !== 0)
+          setRating(Math.round((data.books[0].star / data.books[0].rate_times)))
+        else setRating(0)
         fetchRelatedBook(data.books[0].category);
       })
       .catch(err => console.log(err))

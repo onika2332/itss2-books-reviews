@@ -6,11 +6,14 @@ import { PATHS } from "../../config/paths";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import { API_PATHS } from "../../config/api-paths";
+import { useAuth } from "../../hooks/useAuth"
 
 const { Link } = Anchor;
 function Login() {
 
   const navigate = useNavigate();
+  const [user,token,isAuth] = useAuth()
+
 
   const onFinish = async (values) => {
 
