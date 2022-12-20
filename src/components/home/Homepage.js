@@ -108,7 +108,10 @@ function Homepage() {
           }}
         />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onSelect={(item) => {
-          navigate(item.item.props.url)
+          if (item.item.props.url === PATHS.home)
+            window.location.reload(false);
+          else
+            navigate(item.item.props.url)
         }}/>
       </Sider>
       <Layout className="site-layout">
@@ -193,7 +196,7 @@ function Homepage() {
           }}>フィルター</Button>
           <Row className={styles.listBooks} gutter={20}>
             {
-              books.length !== 0 ? books.map(book => <BookItem book={book} />) : <h1>Loading...</h1>
+              books.length !== 0 ? books.map(book => <BookItem book={book} />) : <span className={styles.notFound}>見つかりません</span>
             }
           </Row>
           <Pagination

@@ -104,8 +104,8 @@ function ComparingBooks() {
                             />
                             <br/>
                             <h2 className={styles.ComparebookTitle}>{books[0].name}</h2>
-                            <Rate value={books[0].star} disabled/>
-                            <h3> {books[0].star} </h3>
+                            <Rate value={Math.round((books[0].star / books[0].rate_times))} disabled/>
+                            <h3> {Math.round((books[0].star / books[0].rate_times))} </h3>
                         </Card>
                     </div>
                 </Col>
@@ -121,8 +121,8 @@ function ComparingBooks() {
                             />
                             <br/>
                             <h2 className={styles.ComparebookTitle}>{books[1].name}</h2>
-                            <Rate value={books[1].star} disabled/>
-                            <h3> {books[1].star} </h3>
+                            <Rate value={Math.round((books[1].star / books[1].rate_times))} disabled/>
+                            <h3> {Math.round((books[1].star / books[1].rate_times))} </h3>
                         </Card>
                     </div>
                 </Col>

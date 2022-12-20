@@ -129,7 +129,7 @@ function BookDetails() {
             </Col>
             <Col span={14}>
               <h1 className={styles.bookName}>{book.name}</h1>
-              <Rate allowHalf value={book.star} disabled />
+              <Rate allowHalf value={rating} disabled />
               {rating ? <span className={styles.ratingNumber}>{rate[rating - 1]}</span> : ''}
               <div style={{ marginTop: '10px' }}>
                 <h1>{book.price} 円</h1>
