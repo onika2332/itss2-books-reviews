@@ -11,7 +11,9 @@ export const API_PATHS = {
 
 export const BOOK_API_PATH = {
   book: `${base_url}/book`,
-  compare:`${base_url}/book/compare`
+  compare:`${base_url}/book/compare`,
+  rating: `${base_url}/book/rating`,
+  rated: `${base_url}/book/is-rated`
 }
 
 export const COMMENT_API_PATH = {
