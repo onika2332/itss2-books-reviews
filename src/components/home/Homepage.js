@@ -92,7 +92,7 @@ function Homepage() {
   }
   const items = [
     getItem('ホームページ', '1', <PieChartOutlined />, PATHS.home),
-    getItem('プロファイル', '2', <DesktopOutlined />, PATHS.home),
+    getItem('プロファイル', '2', <DesktopOutlined />, PATHS.profile),
     getItem('二つの本を比べる', '3', <ContainerOutlined />, PATHS.compare),
     getItem('模擬試験', '4', <ContainerOutlined />, PATHS.home),
   ]
