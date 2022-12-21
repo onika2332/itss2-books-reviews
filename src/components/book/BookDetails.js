@@ -184,7 +184,12 @@ function BookDetails() {
             <br />
             <span>{book.name}</span><br></br>
             <StarFilled style={{ color: '#FFFF00', paddingLeft: '60px' }} />
-            <span style={{ marginLeft: '5px' }}> {book.star} </span>
+            { book.rate_times === 0 &&
+              <span style={{ marginLeft: '5px' }}>    0</span>
+            }
+            { book.rate_times !== 0 &&
+              <span style={{ marginLeft: '5px' }}> {Math.round((book.star / book.rate_times))} </span>
+            }
           </Card>) : <h1>付属の本がない</h1>
           }
         </div>
