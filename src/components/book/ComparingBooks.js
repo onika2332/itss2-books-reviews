@@ -4,7 +4,7 @@ import { Button, Tooltip } from 'antd';
 import { Image, Avatar } from 'antd';
 import { Rate } from 'antd';
 import { Card  } from 'antd';
-import { LeftOutlined, UserOutlined} from '@ant-design/icons';
+import { LeftOutlined, UserOutlined, StarFilled} from '@ant-design/icons';
 import { Table } from 'antd';
 import styles from "./styles.module.scss";
 import { useSearchParams } from 'react-router-dom';
@@ -145,7 +145,7 @@ function ComparingBooks() {
                                     <h3>{comment.created_by}</h3>
                                     <p> {comment.content}</p>
                                 </Col>
-                            </Row>): <h1> No comment available!</h1>}
+                            </Row>): <h1> コメントがありません。</h1>}
                         </Card>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ function ComparingBooks() {
                                     <h3>{comment.created_by}</h3>
                                     <p> {comment.content}</p>
                                 </Col>
-                            </Row>): <h1>No comment available!</h1>
+                            </Row>): <h1>コメントがありません。</h1>
                             }
                         </Card>
                     </div>

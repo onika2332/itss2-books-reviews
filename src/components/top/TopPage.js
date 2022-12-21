@@ -39,26 +39,19 @@ function TopPage() {
             <Content>
             <Carousel autoplay className={styles.Carousel}>
                 <div>
-                    <div style={contentStyle}>
-                        <h1>Title</h1>
-                        <h3>Description</h3>
-                    </div>
+                    <div style={contentStyle}></div>
                 </div>
                 <div>
-                    <div style={contentStyle}>
-                        <h1>Title</h1>
-                        <h3>Description</h3>
-                    </div>
+                    <div style={contentStyle}></div>
                 </div>
                 <div>
-                    <div style={contentStyle}>
-                        <h1>Title</h1>
-                        <h3>Description</h3>
-                    </div>
+                    <div style={contentStyle}></div>
                 </div>
             </Carousel>
             </Content>
-            <Footer>Footer</Footer>
+            <Footer>
+                Ten nhom phat trien
+            </Footer>
         </Layout>
     )
 }

@@ -30,9 +30,10 @@
     }
     .listComment {
       margin-left: 2em;
-
+      
       .listCommentItem {
         background-color: blueviolet;
+        margin-bottom: 15px;
         .deleteCommentButton {
           position: absolute;
           left: 93%;
@@ -47,10 +48,14 @@
     .relatedBook {
       width: 200px;
       margin: auto;
+      margin-bottom: 15px;
       .relatedBookImage {
         display: flex !important;
         margin: auto !important;
       }
+      // .anticon-star {
+      //   padding-left: 60px;
+      // }
     }
     .CompareBook {
       width: 300px;

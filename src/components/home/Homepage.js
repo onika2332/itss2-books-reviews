@@ -116,7 +116,12 @@ function Homepage() {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          <span className={styles.username}>こんにちは{user}</span>
+          {user.length >= 25 &&
+              <span className={styles.username}>こんにちは{user.slice(0,25)}...</span>
+          }
+          {user.length < 25 &&
+              <span className={styles.username}>こんにちは{user}</span>
+          }
           <Button type="primary" className={styles.logoutButton} onClick={() => handleSignout()}>ログアウト</Button>
         </Header>
         <Content
