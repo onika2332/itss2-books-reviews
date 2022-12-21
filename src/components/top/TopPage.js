@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
 import { Carousel } from 'antd';
 import styles from "./styles.module.scss";
-import { Image } from 'antd';
 
 const { Header, Footer, Content } = Layout;
 function TopPage() {

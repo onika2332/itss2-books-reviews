@@ -13,6 +13,7 @@ function BookDetails() {
   const navigate = useNavigate();
   const { TextArea } = Input;
   const [rating, setRating] = useState(null);
+  const [isRated, setIsRated] = useState(null);
   const [rateInput, setRateInput] = useState(null);
   const [isRatingModelOpen, setIsRatingModalOpen] = useState(false);
   const [book, setBook] = useState(null)
@@ -32,6 +33,7 @@ function BookDetails() {
   useEffect(() => {
     fetchBook();
     fetchComment();
+    fetchIsRated();
   }, [])
 
   const showRatingModal = () => {
@@ -42,6 +44,10 @@ function BookDetails() {
       "book-id": bookId,
       "star": rateInput,
     }, config)
+      .then(() => {
+        fetchBook()
+        fetchIsRated()
+      })
     setIsRatingModalOpen(false);
   };
   const handleRatingCancel = () => {
@@ -53,7 +59,9 @@ function BookDetails() {
       .then(data => data.data)
       .then(data => {
         setBook(data.books[0])
-        setRating(data.books[0].star)
+        if(  data.books[0].rate_times !== 0)
+          setRating(Math.round((data.books[0].star / data.books[0].rate_times)))
+        else setRating(0)
         fetchRelatedBook(data.books[0].category);
       })
       .catch(err => console.log(err))
@@ -76,6 +84,13 @@ function BookDetails() {
       })
       .catch(err => console.log(err))
 
+  }
+  const fetchIsRated = async () => {
+    await axios.get(BOOK_API_PATH.rated + "?bookId="+ bookId, config)
+      .then(data => data.data)
+      .then(data => {
+        setIsRated(data)
+      })
   }
   const params = {
     "book-id": bookId,
@@ -123,7 +138,7 @@ function BookDetails() {
               <Button shape="circle" icon={<HeartFilled />} />
               <br />
               {/* disable if user already rate */}
-              <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal}>レーティング</Button>
+              <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal} disabled={isRated}>レーティング</Button>
               <Modal title="レーティング" open={isRatingModelOpen} onOk={handleRating} onCancel={handleRatingCancel}>
                 {/* user rate here */}
                 <Rate value={rateInput} onChange={(e) => setRateInput(e)} />

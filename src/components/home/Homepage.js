@@ -8,8 +8,10 @@ import styles from "./styles.module.scss";
 import { useEffect, useState } from "react";
 import { BOOK_API_PATH } from "../../config/api-paths";
 import axios from "axios";
-import { createSearchParams, generatePath, useNavigate } from "react-router-dom";
+import { generatePath, useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
+import { useAuth } from "../../hooks/useAuth"
+
 const { Header, Sider, Content } = Layout;
 
 const BookItem = ({book}) => {
@@ -47,9 +49,17 @@ function Homepage() {
   const [minPrice,setminPrice] = useState([]);
   const [maxPrice,setmaxPrice] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
+  const [user,token,isAuth] = useAuth()
   useEffect(() => {
     getBooks(0, 8)
   },[])
+
+  const handleSignout = () => {
+    localStorage.removeItem("APP_TOKEN");
+    localStorage.removeItem("ACTIVE_USER");
+    localStorage.removeItem("IS_AUTH");
+    navigate(PATHS.topPage)
+  }
 
   const getBooks = async (page, size, level, category, text, minPrice, maxPrice ) => {
     await axios.get(BOOK_API_PATH.book, {
@@ -102,7 +112,10 @@ function Homepage() {
         }}/>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          <span className={styles.username}>こんにちは{user}</span>
+          <Button type="primary" className={styles.logoutButton} onClick={() => handleSignout()}>ログアウト</Button>
+        </Header>
         <Content
           className="site-layout-background"
           style={{

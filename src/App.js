@@ -19,6 +19,14 @@ const PrivateRoute = () => {
   return auth ? <Outlet /> : <Navigate to="/login" />;
 }
 
+const CheckLoggedIn = () => {
+  const [user,token,isAuth] = useAuth()
+  const auth = isAuth; 
+  // If authorized, return an outlet that will render child elements
+  // If not, return element that will navigate to login page
+  return auth ? <Navigate to="/home" /> : <Outlet />;
+}
+
 
 function App() {
 
@@ -27,7 +35,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={PATHS.topPage} element={<TopPage />} />
-          <Route path={PATHS.login} element={<Login />} />
+          <Route exact path='/' element={<CheckLoggedIn/>}>
+            <Route path={PATHS.login} element={<Login />} />
+          </Route>
           <Route path={PATHS.signup} element={<Signup />} />
           <Route exact path='/' element={<PrivateRoute/>}>
             <Route exact path={PATHS.home} element={<Homepage />} />
