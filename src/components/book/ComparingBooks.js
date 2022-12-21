@@ -170,10 +170,10 @@ function ComparingBooks() {
                 </div>
             </Col>
         </Row> :
-        <h1>Loading comment....</h1>
+        <h1>コメントを読み込んでいます....</h1>
            }
 
-        </div>: <h1>Loading...</h1>}
+        </div>: <h1>読み込んでいます...</h1>}
         </div>
         
     )
