@@ -43,7 +43,6 @@ function TopPage() {
 
     const topPageBackground = {
         backgroundImage: `url("./top_page_background.jpg")`,
-        paddingTop: '400px',
         backgroundPosition: 'center',
         backgroundSize: '1030px 600px',
         width: '80%',
@@ -70,7 +69,7 @@ function TopPage() {
             </Header>
             <Content>
                 <div style={topPageBackground} >
-                    <div class="text">
+                    <div className={styles.description}>
                     日本語勉強人たちにとって、日本語教科書を選ぶことがとても大切です。ところが、現在では教科書がたくさんあります。耳から覚えるとか、新完全マスターとか、総まとめとか。。。ですから、教科書を選ぶことは困っています。どれを選べばいいのか全然わからないです。
 この問題を解決するために、私たちのチームは、誰もが自分に合ったカリキュラムを参照して選択できるように、日本語の教科書をレビューするWebサイトを作成したいと考えています。
                     </div>
