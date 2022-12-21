@@ -1,5 +1,5 @@
 .container {
-    background: url("./../../../public/background.png");
+    background: url("./../../../public/background.jpg");
     background-size: cover;
     padding-top: 3%;
     padding-left: 5%;
@@ -53,9 +53,6 @@
         display: flex !important;
         margin: auto !important;
       }
-      // .anticon-star {
-      //   padding-left: 60px;
-      // }
     }
     .CompareBook {
       width: 300px;
@@ -76,7 +73,7 @@
     .CompareCommentTitle {
       font-weight: bold;
       text-align: center;
-      color: white;
+      color: black;
     }
     .CompareListComment {
       margin-left: 0em;

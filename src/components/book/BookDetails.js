@@ -161,7 +161,7 @@ function BookDetails() {
                   <Avatar size="large" icon={<UserOutlined />} />
                 </Col>
                 <Col span={20}>
-                  <h3>{comment.created_by}</h3>
+                  <h3 style={{color: 'white'}}>{comment.created_by}</h3>
                   <p>{comment.content} </p>
                   {user === comment.created_by && <Button type="primary" danger className={styles.deleteCommentButton} icon={<DeleteOutlined />} onClick={() => deleteComment(comment.id)}></Button>}
                 </Col>
