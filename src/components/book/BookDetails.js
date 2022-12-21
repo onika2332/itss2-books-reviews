@@ -169,7 +169,7 @@ function BookDetails() {
             </Card>)}
           </div>
         </div>
-      </Col> : <h1>Loading...</h1>}
+      </Col> : <h1>読み込んでいます...</h1>}
       <Col span={6}>
         <h3 className={styles.relatedBooksTitle}> 付属の本 </h3>
         <div className="site-card-border-less-wrapper">
