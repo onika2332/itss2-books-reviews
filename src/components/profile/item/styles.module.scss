@@ -1,0 +1,21 @@
+.rate {
+  cursor: pointer;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid blueviolet;
+  .img {
+    img {
+      width: 100%;
+    }
+  }
+  .btn {
+    margin-top: 15px;
+  }
+}
