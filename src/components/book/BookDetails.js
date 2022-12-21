@@ -153,7 +153,7 @@ function BookDetails() {
         <div className='Comment'>
           <h2 className={styles.commentTitle}>コメント</h2>
           <TextArea rows={4} className={styles.inputComment} placeholder="コメントを入力してください" value={commentInput} onChange={(e) => setCommentInput(e.target.value)} />
-          <Button type="primary" className={styles.commentSubmit} onClick={postComment}>Submit</Button>
+          <Button type="primary" className={styles.commentSubmit} onClick={postComment}>コメント</Button>
           <div className={styles.listComment}>
             {comments.map(comment => <Card className={styles.listCommentItem}>
               <Row>
@@ -184,7 +184,12 @@ function BookDetails() {
             <br />
             <span>{book.name}</span><br></br>
             <StarFilled style={{ color: '#FFFF00', paddingLeft: '60px' }} />
-            <span style={{ marginLeft: '5px' }}> {book.star} </span>
+            { book.rate_times === 0 &&
+              <span style={{ marginLeft: '5px' }}>    0</span>
+            }
+            { book.rate_times !== 0 &&
+              <span style={{ marginLeft: '5px' }}> {Math.round((book.star / book.rate_times))} </span>
+            }
           </Card>) : <h1>付属の本がない</h1>
           }
         </div>
