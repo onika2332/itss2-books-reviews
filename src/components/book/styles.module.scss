@@ -1,5 +1,5 @@
 .container {
-    background: url("./../../../public/background.png");
+    background: url("./../../../public/background.jpg");
     background-size: cover;
     padding-top: 3%;
     padding-left: 5%;
@@ -30,9 +30,10 @@
     }
     .listComment {
       margin-left: 2em;
-
+      
       .listCommentItem {
         background-color: blueviolet;
+        margin-bottom: 15px;
         .deleteCommentButton {
           position: absolute;
           left: 93%;
@@ -47,6 +48,7 @@
     .relatedBook {
       width: 200px;
       margin: auto;
+      margin-bottom: 15px;
       .relatedBookImage {
         display: flex !important;
         margin: auto !important;
@@ -71,7 +73,7 @@
     .CompareCommentTitle {
       font-weight: bold;
       text-align: center;
-      color: white;
+      color: black;
     }
     .CompareListComment {
       margin-left: 0em;

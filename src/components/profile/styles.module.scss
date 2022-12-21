@@ -1,0 +1,57 @@
+.container {
+  // background-image: url("./../../../public/login/bg-profile.jpg");
+  // background-repeat: repeat;
+  // background-size: contain;
+  background: whitesmoke;
+
+  .title {
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    align-items: center;
+    background: #333;
+    color: white;
+  }
+  .avatarWrap {
+    img {
+      width: 100%;
+    }
+    span {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    span {
+      font-size: 1.5rem;
+      height: 35px;
+      line-height: 35px;
+      display: inline-block;
+    }
+    .labelContact {
+      min-width: 100px;
+      font-weight: 500;
+    }
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    margin-top: 20px;
+    background: red;
+    color: white;
+  }
+
+  .logoutButton {
+    position: absolute;
+    left: 92%;
+    top: 2%;
+  }
+}

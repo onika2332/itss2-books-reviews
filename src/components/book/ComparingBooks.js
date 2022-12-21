@@ -4,7 +4,7 @@ import { Button, Tooltip } from 'antd';
 import { Image, Avatar } from 'antd';
 import { Rate } from 'antd';
 import { Card  } from 'antd';
-import { LeftOutlined, UserOutlined} from '@ant-design/icons';
+import { LeftOutlined, UserOutlined, StarFilled} from '@ant-design/icons';
 import { Table } from 'antd';
 import styles from "./styles.module.scss";
 import { useSearchParams } from 'react-router-dom';
@@ -105,7 +105,12 @@ function ComparingBooks() {
                             <br/>
                             <h2 className={styles.ComparebookTitle}>{books[0].name}</h2>
                             <Rate value={Math.round((books[0].star / books[0].rate_times))} disabled/>
-                            <h3> {Math.round((books[0].star / books[0].rate_times))} </h3>
+                            { books[0].rate_times == 0 &&
+                                <span> 0</span>
+                            }
+                            { books[0].rate_times != 0 &&
+                                <span> {Math.round((books[0].star / books[0].rate_times))} </span>
+                            }
                         </Card>
                     </div>
                 </Col>
@@ -122,12 +127,18 @@ function ComparingBooks() {
                             <br/>
                             <h2 className={styles.ComparebookTitle}>{books[1].name}</h2>
                             <Rate value={Math.round((books[1].star / books[1].rate_times))} disabled/>
-                            <h3> {Math.round((books[1].star / books[1].rate_times))} </h3>
+                            {/* <h3> {Math.round((books[1].star / books[1].rate_times))} </h3> */}
+                            { books[1].rate_times == 0 &&
+                                <span>    0</span>
+                            }
+                            { books[1].rate_times != 0 &&
+                                <span> {Math.round((books[1].star / books[1].rate_times))} </span>
+                            }
                         </Card>
                     </div>
                 </Col>
             </Row>
-            <Table dataSource={dataSource} columns={columns} className={styles.CompareTable} />;
+            <Table dataSource={dataSource} columns={columns} className={styles.CompareTable} />
             <h1 className={styles.CompareCommentTitle}>コメント</h1>
            {
             comments.length !== 0 ?
@@ -142,10 +153,10 @@ function ComparingBooks() {
                                     <Avatar size="large" icon={<UserOutlined />} />
                                 </Col>
                                 <Col span={20}>
-                                    <h3>{comment.created_by}</h3>
+                                    <h3 style={{color: 'white'}}>{comment.created_by}</h3>
                                     <p> {comment.content}</p>
                                 </Col>
-                            </Row>): <h1> No comment available!</h1>}
+                            </Row>): <h1> コメントがありません。</h1>}
                         </Card>
                     </div>
                 </div>
@@ -160,20 +171,20 @@ function ComparingBooks() {
                                     <Avatar size="large" icon={<UserOutlined />} />
                                 </Col>
                                 <Col span={20}>
-                                    <h3>{comment.created_by}</h3>
+                                    <h3 style={{color: 'white'}}>{comment.created_by}</h3>
                                     <p> {comment.content}</p>
                                 </Col>
-                            </Row>): <h1>No comment available!</h1>
+                            </Row>): <h1>コメントがありません。</h1>
                             }
                         </Card>
                     </div>
                 </div>
             </Col>
         </Row> :
-        <h1>Loading comment....</h1>
+        <h1>コメントを読み込んでいます....</h1>
            }
 
-        </div>: <h1>Loading...</h1>}
+        </div>: <h1>読み込んでいます...</h1>}
         </div>
 
     )

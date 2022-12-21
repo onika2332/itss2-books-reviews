@@ -20,6 +20,7 @@
 }
 .listBooks {
   overflow: hidden;
+  margin-top: 25px;
   .bookItem {
     margin-right: 25px;
     img {
@@ -55,5 +56,5 @@
 .username {
   color: white;
   position:absolute;
-  left: 85%;
+  right: 15%;
 }

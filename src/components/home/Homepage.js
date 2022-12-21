@@ -92,7 +92,7 @@ function Homepage() {
   }
   const items = [
     getItem('ホームページ', '1', <PieChartOutlined />, PATHS.home),
-    getItem('プロファイル', '2', <DesktopOutlined />, PATHS.home),
+    getItem('プロファイル', '2', <DesktopOutlined />, PATHS.profile),
     getItem('二つの本を比べる', '3', <ContainerOutlined />, PATHS.compare),
     getItem('模擬試験', '4', <ContainerOutlined />, PATHS.home),
   ]
@@ -116,7 +116,12 @@ function Homepage() {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          <span className={styles.username}>こんにちは{user}</span>
+          {user.length >= 25 &&
+              <span className={styles.username}>こんにちは{user.slice(0,25)}...</span>
+          }
+          {user.length < 25 &&
+              <span className={styles.username}>こんにちは{user}</span>
+          }
           <Button type="primary" className={styles.logoutButton} onClick={() => handleSignout()}>ログアウト</Button>
         </Header>
         <Content
