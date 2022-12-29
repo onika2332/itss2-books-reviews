@@ -1,8 +1,11 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_TAG'
 
 stages:
     - build
     - docker
-    - deploy
 default:
     tags:
         - docker
@@ -13,6 +16,8 @@ cache:
         - /node_modules
 
 build job:
+    stage: build
+
     image: node:18-alpine
 
     script:
@@ -21,14 +26,17 @@ build job:
     artifacts:
         paths:
             - /build
+        expire_in: 1 week
 
 docker job:
+    stage: docker
+
     image: docker:20.10.22
 
     services:
-        - docker: 20.10.22-dind
+        - docker:20.10.22-dind
     
-    env:
+    variables:
         DOCKER_TLS_CERTDIR: ""
     
     script:
