@@ -1,7 +1,4 @@
-
-const base_url = process.env.NODE_ENV === 'production' ?
-    'http://itss-ecs-loadbalancer-1714898168.ap-southeast-1.elb.amazonaws.com/api':
-    'localhost:8080'
+const base_url = 'web:8080'
 
 export const API_PATHS = {
   login: `${base_url}/user/login`,
