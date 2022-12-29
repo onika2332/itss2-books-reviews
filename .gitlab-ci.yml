@@ -25,11 +25,11 @@ build job:
     image: node:18-alpine
     script:
         - npm install --force
-        - CI=false && npm run build
+        - npm build
     
     artifacts:
         paths:
-            - /build
+            - build/
         expire_in: 1 week
 
 docker job:
