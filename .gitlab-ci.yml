@@ -23,10 +23,9 @@ build job:
     stage: build
 
     image: node:18-alpine
-
     script:
         - npm install --force
-        - npm run build
+        - CI=false && npm run build
     
     artifacts:
         paths:
