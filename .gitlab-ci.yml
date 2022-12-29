@@ -25,6 +25,7 @@ build job:
     image: node:18-alpine
 
     script:
+        - npm install
         - npm run build
     
     artifacts:
