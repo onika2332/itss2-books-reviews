@@ -17,7 +17,7 @@ default:
 cache:
     - key: cache
       paths:
-        - /node_modules
+        - node_modules/
 
 build job:
     stage: build
