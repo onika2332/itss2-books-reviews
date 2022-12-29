@@ -62,7 +62,7 @@ deploy-job:
   script:
     - echo "Deploying..."
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "sudo systemctl start docker.service"
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker login -u $DOCKER_USER -p $DOCKER_PWD"
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker-compose down"
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker-compose build --pull && docker-compose up -d"
     - sleep 60
