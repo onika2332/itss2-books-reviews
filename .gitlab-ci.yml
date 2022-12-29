@@ -6,10 +6,14 @@ workflow:
 variables:
     IMAGE_NAME: crisphung/itss-fe
     IMAGE_TAG: v1
+    EC_USER: ec2-user
+    EC_IP: 54.179.146.183
+    CONTAINER_NAME: itss-fe
 
 stages:
     - build
     - docker
+    - deploy
 default:
     tags:
         - docker
@@ -48,4 +52,19 @@ docker job:
         - docker build -t $IMAGE_NAME:$IMAGE_TAG .
         - docker push $IMAGE_NAME:$IMAGE_TAG
 
+deploy-job:
+  image: alpine
+  stage: deploy
+
+  before_script:
+    - chmod 400 $SSH_KEY
+    - apk update && apk add openssh-client
+  script:
+    - echo "Deploying..."
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "sudo systemctl start docker.service"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker-compose down"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker-compose build --pull && docker-compose up -d"
+    - sleep 60
+    - echo "Deployed!"
 
