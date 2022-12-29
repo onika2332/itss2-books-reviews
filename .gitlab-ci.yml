@@ -1,0 +1,39 @@
+
+stages:
+    - build
+    - docker
+    - deploy
+default:
+    tags:
+        - docker
+
+cache:
+    - key: cache
+      paths:
+        - /node_modules
+
+build job:
+    image: node:18-alpine
+
+    script:
+        - npm run build
+    
+    artifacts:
+        paths:
+            - /build
+
+docker job:
+    image: docker:20.10.22
+
+    services:
+        - docker: 20.10.22-dind
+    
+    env:
+        DOCKER_TLS_CERTDIR: ""
+    
+    script:
+        - docker login -u $DOCKER_USER -p $DOCKER_PWD
+        - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+        - docker push $IMAGE_NAME:$IMAGE_TAG
+
+
