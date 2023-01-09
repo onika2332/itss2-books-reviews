@@ -201,7 +201,7 @@ function Homepage() {
           }}>フィルター</Button>
           <Row className={styles.listBooks} gutter={20}>
             {
-              books.length !== 0 ? books.map(book => <BookItem book={book} />) : <span className={styles.notFound}>見つかりません</span>
+              books.length !== 0 ? books.map((book,idx) => <BookItem key={idx} book={book} />) : <span className={styles.notFound}>見つかりません</span>
             }
           </Row>
           <Pagination
