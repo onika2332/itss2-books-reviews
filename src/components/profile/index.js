@@ -4,17 +4,41 @@ import {
   PieChartOutlined,
 } from "@ant-design/icons";
 import { Button, Col, Divider, Layout, Menu, Row } from "antd";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_PATHS } from "../../config/api-paths";
 import { PATHS } from "../../config/paths";
+import { useAuth } from "../../hooks/useAuth";
 import FavoriteItem from "./favoriteItem/FavoriteItem";
 import Item from "./item";
+import AvatarPart from "./item/AvatarPart";
 import styles from "./styles.module.scss";
 const { Header, Sider, Content } = Layout;
 
 function Profile() {
   const [collapsed, setCollapsed] = useState(false);
+  const [userInfo, setUserInfo] = useState(null)
+  const [favorites, setFavorites] = useState([])
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [user, token, isAuth] = useAuth()
+  const config = {
+    headers: {
+      'content-type': 'application/json',
+      'authorization': 'Bearer ' + token,
+    }
+  }
+  useEffect(() => {
+    fetchProfile()
+  }, [])
+  const fetchProfile = async () => {
+    const { data } = await axios.get(API_PATHS.profile, config)
+    const { user_info, favorite_books } = data;
+    setLoading(false)
+    setUserInfo(user_info)
+    setFavorites(favorite_books);
+  }
 
   function getItem(label, key, icon, url, children, type) {
     return {
@@ -32,8 +56,26 @@ function Profile() {
     getItem("二つの本を比べる", "3", <ContainerOutlined />, PATHS.compare),
     getItem("模擬試験", "4", <ContainerOutlined />, PATHS.home),
   ];
-  const handleSignout = () => {};
-  const handleClick = () => {};
+
+
+  const favoriteBooks = () => {
+    if (loading) {
+      return <div>Loading</div>
+    }
+    if (favorites.length == 0) {
+      return <div>No favorite Books</div>
+    }
+
+   return favorites.map((book, idx) => {
+      return (
+        <Row key={idx}>
+        <FavoriteItem book={book} />
+      </Row>
+      )
+    })
+  }
+  const handleSignout = () => { };
+  const handleClick = () => { };
 
   return (
     <div className={styles.container}>
@@ -62,14 +104,6 @@ function Profile() {
         </Sider>
         <Layout className="site-layout">
           <Header className="site-layout-background" style={{ padding: 0 }}>
-            {/* {user.length >= 25 && (
-              <span className={styles.username}>
-                こんにちは{user.slice(0, 25)}...
-              </span>
-            )}
-            {user.length < 25 && (
-              <span className={styles.username}>こんにちは{user}</span>
-            )} */}
             <Button
               type="primary"
               className={styles.logoutButton}
@@ -79,21 +113,19 @@ function Profile() {
             </Button>
           </Header>
           <Content>
-            <Row>
+            {userInfo != null ? <Row>
               <Col className={styles.avatarWrap} span={4} offset={2}>
-                <div>
-                  <img src="./login/avatarDefault.jpg" />
-                </div>
-                <span className={styles.name}>Hung</span>
+                <AvatarPart image={userInfo.profile_image} />
+                <span className={styles.name}>{userInfo.name}</span>
               </Col>
               <Col className={styles.contact} span={12} offset={1}>
                 <Row>
                   <span className={styles.labelContact}>メール:</span>
-                  <span className={styles.text}> hung.nv281@gmail.com</span>
+                  <span className={styles.text}> {userInfo.email}</span>
                 </Row>
                 <Row>
                   <span className={styles.labelContact}>電話番号:</span>
-                  <span className={styles.text}> 0985589907</span>
+                  <span className={styles.text}> {userInfo.phone}</span>
                 </Row>
               </Col>
               <Col className={styles.avatarWrap} span={2} offset={2}>
@@ -101,27 +133,20 @@ function Profile() {
                   支払い
                 </Button>
               </Col>
-            </Row>
+            </Row> : <h5>Loading</h5>}
 
             <Divider />
 
-            <Row>
+            {/* <Row>
               <Col span={22} offset={2}>
                 <p className={styles.label}>最近のテストのリスト</p>
               </Col>
             </Row>
 
             <Row>
-              <Col span={6} offset={3}>
-                <Item />
-              </Col>
-              <Col span={6}>
-                <Item />
-              </Col>
-              <Col span={6}>
-                <Item />
-              </Col>
-            </Row>
+           
+              <Item/>
+            </Row> */}
 
             <Divider />
 
@@ -131,15 +156,8 @@ function Profile() {
               </Col>
             </Row>
 
-            <Row>
-              <FavoriteItem />
-            </Row>
-            <Row>
-              <FavoriteItem />
-            </Row>
-            <Row>
-              <FavoriteItem />
-            </Row>
+            {favoriteBooks()}
+            
           </Content>
         </Layout>
       </Layout>
