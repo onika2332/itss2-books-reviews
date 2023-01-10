@@ -4,7 +4,9 @@ export const API_PATHS = {
   login: `${base_url}/user/login`,
   signup: `${base_url}/user/signup`,
   reactComment: `${base_url}/user/react-comment`,
-  likedComment: `${base_url}/user/liked-comment`
+  likedComment: `${base_url}/user/liked-comment`,
+  updateProfile:`${base_url}/user/update-profile`,
+  profile:`${base_url}/user/profile`
 
 };
 
