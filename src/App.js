@@ -1,4 +1,4 @@
-import "antd/dist/reset.css";
+import "antd/dist/antd.css"
 import {
   BrowserRouter,
   Navigate,

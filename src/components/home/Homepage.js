@@ -62,7 +62,7 @@ function Homepage() {
   }
 
   const getBooks = async (page, size, level, category, text, minPrice, maxPrice ) => {
-    await axios.get(BOOK_API_PATH.book, { 
+    await axios.get(BOOK_API_PATH.book, {
       params:{
         page: page,
         size: size,
@@ -96,7 +96,7 @@ function Homepage() {
     getItem('二つの本を比べる', '3', <ContainerOutlined />, PATHS.compare),
     getItem('模擬試験', '4', <ContainerOutlined />, PATHS.home),
   ]
- 
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
@@ -201,7 +201,7 @@ function Homepage() {
           }}>フィルター</Button>
           <Row className={styles.listBooks} gutter={20}>
             {
-              books.length !== 0 ? books.map(book => <BookItem book={book} />) : <span className={styles.notFound}>見つかりません</span>
+              books.length !== 0 ? books.map((book,idx) => <BookItem key={idx} book={book} />) : <span className={styles.notFound}>見つかりません</span>
             }
           </Row>
           <Pagination

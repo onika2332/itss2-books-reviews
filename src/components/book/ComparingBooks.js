@@ -23,14 +23,14 @@ function ComparingBooks() {
 
     useEffect(()=>{
         fetchData();
-      
+
     }, [])
 
     const fetchData = async () =>
     {
         await axios.get(BOOK_API_PATH.compare+"?book1="+bookId1+"&book2="+bookId2)
         .then(data => data.data)
-        .then(data => { 
+        .then(data => {
              console.log(data);
              setBooks([data.book_1,data.book_2])
         }).catch(error => console.log(error))
@@ -47,7 +47,7 @@ function ComparingBooks() {
                 setComments(data)}
           );
     }
-    
+
     const dataSource = books.map((book,index) => {
         return {
             key: index,
@@ -82,7 +82,7 @@ function ComparingBooks() {
       ];
     return (
         <div>
-            {books.length !== 0 ? 
+            {books.length !== 0 ?
             <div className={styles.container}>
             <Row className='Book'>
                 <Col span={12}>
@@ -141,13 +141,13 @@ function ComparingBooks() {
             <Table dataSource={dataSource} columns={columns} className={styles.CompareTable} />
             <h1 className={styles.CompareCommentTitle}>コメント</h1>
            {
-            comments.length !== 0 ? 
+            comments.length !== 0 ?
             <Row>
             <Col span={12}>
                 <div className='Comment'>
                     <div className={styles.CompareListComment}>
                         <Card className={styles.CompareListCommentItem}>
-                           {comments[0].length !== 0 ? comments[0].map((comment,index) =>  
+                           {comments[0].length !== 0 ? comments[0].map((comment,index) =>
                             <Row key={index}>
                                 <Col span={4}>
                                     <Avatar size="large" icon={<UserOutlined />} />
@@ -186,7 +186,7 @@ function ComparingBooks() {
 
         </div>: <h1>読み込んでいます...</h1>}
         </div>
-        
+
     )
 }
 

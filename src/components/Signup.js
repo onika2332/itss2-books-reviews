@@ -13,12 +13,12 @@ function Signup() {
     const navigate = useNavigate();
 
     const onFinish = async (value) => {
-       
+
         console.log("Success:",value);
-       
-       
+
+
         let url = API_PATHS.signup;
-       
+
         await axios.post(url,value,{
             headers: {
                 // 'application/json' is the modern content-type for JSON, but some
@@ -32,7 +32,7 @@ function Signup() {
             duration: 1.5
         })
             navigate("/login");
-        }).catch(err => 
+        }).catch(err =>
             {
                 notification.error({
                     message: "Signup failed!",

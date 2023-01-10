@@ -1,13 +1,17 @@
-FROM node
+FROM nginx
 
-WORKDIR /app
+WORKDIR /usr/share/nginx/html
 
-COPY package.json .
+# Nginx Config
+RUN rm -rf /etc/nginx/conf.d
 
-RUN npm install --force
+COPY conf /etc/nginx
 
-COPY . .
+COPY build/ .
 
-EXPOSE 3000
+EXPOSE 80
 
-CMD [ "npm","start" ]
+# Start Nginx server
+CMD [ "nginx", "-g","daemon off;"]
+
+

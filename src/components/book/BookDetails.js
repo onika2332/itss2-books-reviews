@@ -8,6 +8,7 @@ import { BOOK_API_PATH, COMMENT_API_PATH } from '../../config/api-paths';
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
 import { useAuth } from "../../hooks/useAuth"
+import CustomComment from "../comment/CustomComment";
 function BookDetails() {
 
   const navigate = useNavigate();
@@ -15,14 +16,14 @@ function BookDetails() {
   const [rating, setRating] = useState(null);
   const [isRated, setIsRated] = useState(null);
   const [rateInput, setRateInput] = useState(null);
+  const [commentContent,setCommentContent] = useState(null);
   const [isRatingModelOpen, setIsRatingModalOpen] = useState(false);
   const [book, setBook] = useState(null)
-  const [commentInput, setCommentInput] = useState()
   const [relatedBook, setRelatedBook] = useState([])
   const [comments, setComments] = useState([])
   const [user,token,isAuth] = useAuth()
   let { bookId } = useParams();
-  const rate = [1,2,3,4,5] 
+  const rate = [1,2,3,4,5]
   const config = {
     headers: {
       'content-type': 'application/json',
@@ -39,14 +40,19 @@ function BookDetails() {
   const showRatingModal = () => {
     setIsRatingModalOpen(true);
   };
+
   const handleRating = async () => {
-    await axios.post(BOOK_API_PATH.rating, {
-      "book-id": bookId,
-      "star": rateInput,
-    }, config)
+      const params = {
+          "book-id": bookId,
+          "content": commentContent,
+          "star":rateInput
+      };
+    await axios.post(COMMENT_API_PATH.comment, params, config)
       .then(() => {
         fetchBook()
         fetchIsRated()
+          fetchComment()
+
       })
     setIsRatingModalOpen(false);
   };
@@ -92,17 +98,6 @@ function BookDetails() {
         setIsRated(data)
       })
   }
-  const params = {
-    "book-id": bookId,
-    "content": commentInput,
-  };
-  const postComment = async () => {
-    await axios.post(COMMENT_API_PATH.comment, params, config)
-      .then(() => 
-        fetchComment()
-      )
-    setCommentInput('');
-  }
 
   const deleteComment = async (commentId) => {
     await axios.delete(`${COMMENT_API_PATH.comment}/${commentId}`, {
@@ -132,17 +127,25 @@ function BookDetails() {
               <h1 className={styles.bookName}>{book.name}</h1>
               <Rate allowHalf value={rating} disabled />
               {rating ? <span className={styles.ratingNumber}>{rate[rating - 1]}</span> : ''}
+             <p>
+                 <span>{book.rate_times} rated</span>
+             </p>
               <div style={{ marginTop: '10px' }}>
                 <h1>{book.price} 円</h1>
               </div>
-              {/* <Button shape="circle" icon={<HeartOutlined />} />
-              <Button shape="circle" icon={<HeartFilled />} /> */}
+              <Button shape="circle" icon={<HeartOutlined />} />
+              <Button shape="circle" icon={<HeartFilled />} />
               <br />
               {/* disable if user already rate */}
               <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal} disabled={isRated}>レーティング</Button>
               <Modal title="レーティング" open={isRatingModelOpen} onOk={handleRating} onCancel={handleRatingCancel}>
                 {/* user rate here */}
-                <Rate value={rateInput} onChange={(e) => setRateInput(e)} />
+               <div style={{'padding':'5px'}}>
+                   <label>Star:</label><br/>
+                   <Rate value={rateInput} onChange={(e) => setRateInput(e)} />
+               </div>
+                  <label>Comment:</label>
+                  <TextArea value={commentContent} onChange={(e)=>setCommentContent(e.target.value)}></TextArea>
               </Modal>
             </Col>
           </Row>
@@ -152,19 +155,12 @@ function BookDetails() {
         </div>
         <div className='Comment'>
           <h2 className={styles.commentTitle}>コメント</h2>
-          <TextArea rows={4} className={styles.inputComment} placeholder="コメントを入力してください" value={commentInput} onChange={(e) => setCommentInput(e.target.value)} />
-          <Button type="primary" className={styles.commentSubmit} onClick={postComment}>コメント</Button>
+          {/*<TextArea rows={4} className={styles.inputComment} placeholder="コメントを入力してください" value={commentInput} onChange={(e) => setCommentInput(e.target.value)} />*/}
+          {/*<Button type="primary" className={styles.commentSubmit} onClick={postComment}>コメント</Button>*/}
           <div className={styles.listComment}>
-            {comments.map(comment => <Card className={styles.listCommentItem}>
+            {comments.map((comment,idx) => <Card key={idx} className={styles.listCommentItem}>
               <Row>
-                <Col span={4}>
-                  <Avatar size="large" icon={<UserOutlined />} />
-                </Col>
-                <Col span={20}>
-                  <h3 style={{color: 'white'}}>{comment.created_by}</h3>
-                  <p>{comment.content} </p>
-                  {user === comment.created_by && <Button type="primary" danger className={styles.deleteCommentButton} icon={<DeleteOutlined />} onClick={() => deleteComment(comment.id)}></Button>}
-                </Col>
+                  <CustomComment commentProp={comment}/>
               </Row>
             </Card>)}
           </div>
@@ -173,7 +169,7 @@ function BookDetails() {
       <Col span={6}>
         <h3 className={styles.relatedBooksTitle}> 付属の本 </h3>
         <div className="site-card-border-less-wrapper">
-          {relatedBook.length !== 0 ? relatedBook.map(book => <Card bordered={false} className={styles.relatedBook}>
+          {relatedBook.length !== 0 ? relatedBook.map((book,idex) => <Card key={idex} bordered={false} className={styles.relatedBook}>
             <Image
               width={100}
               height={100}
