@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Layout, Menu, Pagination, Row, Select, Input } from "antd";
+import {Button, Col, Divider, Layout, Menu, Pagination, Row, Select, Input, Card} from "antd";
 import {
   ContainerOutlined,
   DesktopOutlined,
@@ -11,6 +11,7 @@ import axios from "axios";
 import { generatePath, useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
 import { useAuth } from "../../hooks/useAuth"
+import Meta from "antd/es/card/Meta";
 
 const { Header, Sider, Content } = Layout;
 
@@ -27,14 +28,16 @@ const BookItem = ({book}) => {
             routeChange(book.id);
           }
       }>
-        <img
-          src={book.image_url !== null ? book.image_url :"https://vn-test-11.slatic.net/p/538a805a2f6398b432767118af9ccb66.jpg"}
-          alt="book-item"
-        ></img>
+        <Card
+            hoverable
+            style={{
+                width: 240,
+            }}
+            cover={<img alt="example" src={book.image_url} height='300px'/>}
+        >
+            <Meta style={{fontWeight:'bold'}} title={book.name}/>
+        </Card>
       </div>
-      <Divider />
-      <span>{book.name}</span>
-      {/* <span>{book.price}円 ー {book.star / book.rate_times}</span> */}
     </Col>
   );
 };
