@@ -6,8 +6,8 @@ export const API_PATHS = {
   reactComment: `${base_url}/user/react-comment`,
   likedComment: `${base_url}/user/liked-comment`,
   updateProfile:`${base_url}/user/update-profile`,
-  profile:`${base_url}/user/profile`
-
+  profile:`${base_url}/user/profile`,
+  setFavorite: `${base_url}/user/favorite`
 };
 
 export const BOOK_API_PATH = {
