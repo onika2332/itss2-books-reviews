@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from 'antd';
 import { Button } from 'antd';
 import { Col, Row } from 'antd';
@@ -10,6 +10,10 @@ import styles from "./styles.module.scss";
 const { Header, Footer, Content } = Layout;
 function TopPage() {
     const navigate = useNavigate();
+    const [images,setImages] = useState([])
+    const [loading,setLoading] = useState(true)
+
+  
     const contentStyle = {
         height: '600px',
         color: '#000',
@@ -53,6 +57,7 @@ function TopPage() {
     }
     return ( 
         <Layout>
+            
             <Header>
                 <Row>
                     <Col span={22}>
@@ -91,8 +96,10 @@ function TopPage() {
                 <h3>使用途中で問題が発生される場合、私達とご連絡してください。</h3>
                 <h4>チームリーダー: Nguyen Thanh Huyen</h4>
                 <h4>電話番号: +84123456789</h4>
+                
             </Footer>
         </Layout>
+        
     )
 }
 

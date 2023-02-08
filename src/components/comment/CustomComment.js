@@ -1,9 +1,11 @@
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
-import { Avatar, Comment, Rate, Tooltip } from 'antd';
+import {Avatar, Button, Comment, Rate, Tooltip} from 'antd';
 import React, { createElement, useEffect, useState } from 'react';
 import { useAuth } from "../../hooks/useAuth";
 import axios from 'axios'
 import { API_PATHS, COMMENT_API_PATH } from "../../config/api-paths";
+import {Input} from "antd";
+const {TextArea} = Input;
 
 const CustomComment = ({ commentProp }) => {
     const [likes, setLikes] = useState(commentProp.like);
@@ -11,7 +13,9 @@ const CustomComment = ({ commentProp }) => {
     const [action, setAction] = useState(null);
     const [user, token, isAuth] = useAuth()
     const [comment, setComment] = useState(commentProp)
+    const [editComment, setEditComment] = useState(commentProp.content)
     const [liked, setLiked] = useState(false)
+    const [isEdit,setIsEdit]= useState(false)
     const config = {
         headers: {
             'content-type': 'application/json',
@@ -119,6 +123,7 @@ const CustomComment = ({ commentProp }) => {
             setLikes(data.like);
             setDislikes(data.dislike);
             setComment(data);
+            setEditComment(data)
             await fetchLiked()
 
         } catch (error) {
@@ -132,6 +137,10 @@ const CustomComment = ({ commentProp }) => {
         let hour = amount / (1000 * 3600)
         return Math.ceil(hour)
     }
+    const edit = () => {
+        setIsEdit(true)
+    }
+
     const actions = [
         <Tooltip key="comment-basic-like" >
             <span onClick={like}>
@@ -144,8 +153,60 @@ const CustomComment = ({ commentProp }) => {
                 {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
                 <span className="comment-action">{dislikes}</span>
             </span>
+        </Tooltip>,
+        <Tooltip key="comment-basic-edit">
+            <span onClick={edit}>
+                <span className="comment-action">Edit</span>
+            </span>
         </Tooltip>
     ];
+    const handleCommentChange = (e) => {
+        setEditComment(e.target.value)
+    }
+    const updateComment = async () => {
+        const body= {
+            "comment-id": comment.id,
+            "content": editComment
+        }
+
+        try {
+            const {data} = await axios.put(COMMENT_API_PATH.comment,body,config);
+            console.log(data)
+            setComment(data.comment)
+            setIsEdit(false)
+        }catch (e) {
+            console.log(e)
+        }
+    }
+    const onCancel = () => {
+        setIsEdit(false)
+    }
+    const commentContent = () => {
+        if(isEdit)
+        {
+            return  <div><TextArea
+                    showCount
+                    maxLength={200}
+                    style={{ height: 70, resize: 'none' }}
+                    onChange={handleCommentChange}
+                    value={editComment}
+                />
+                <Button onClick={updateComment} style={{marginTop:'5px', marginRight:'5px'}} type={"primary"}>Update</Button>
+                <Tooltip key="comment-basic-edit">
+            <span onClick={onCancel}>
+                <span className="comment-action">Cancel</span>
+            </span>
+                </Tooltip>
+
+            </div>
+        }else
+        {
+           return <p style={{ 'padding': '5px' }}>
+                {comment.content}
+            </p>
+        }
+
+    }
     return (
         <Comment
             actions={actions}
@@ -154,11 +215,7 @@ const CustomComment = ({ commentProp }) => {
                 <Rate style={{ 'fontSize': '15px' }} allowHalf value={comment.star} disabled />
             </div>}
             avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-            content={
-                <p style={{ 'padding': '5px' }}>
-                    {comment.content}
-                </p>
-            }
+            content= {commentContent()}
             style={{
                 'maxWidth': '50%',
 

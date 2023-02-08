@@ -6,6 +6,7 @@ export const API_PATHS = {
   reactComment: `${base_url}/user/react-comment`,
   likedComment: `${base_url}/user/liked-comment`,
   updateProfile:`${base_url}/user/update-profile`,
+    favorite: `${base_url}/user/favorite`,
   profile:`${base_url}/user/profile`
 
 };

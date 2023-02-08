@@ -1,26 +1,54 @@
-import {Button, Col, Divider, Layout, Menu, Pagination, Row, Select, Input, Card} from "antd";
+import {Button, Col, Divider, Layout, Menu, Pagination, Row, Select, Input, Card, notification} from "antd";
 import {
-  ContainerOutlined,
-  DesktopOutlined,
-  PieChartOutlined,
+    ContainerOutlined,
+    DesktopOutlined, HeartFilled,
+    PieChartOutlined,
 } from '@ant-design/icons';
 import styles from "./styles.module.scss";
 import { useEffect, useState } from "react";
-import { BOOK_API_PATH } from "../../config/api-paths";
+import {API_PATHS, BOOK_API_PATH} from "../../config/api-paths";
 import axios from "axios";
 import { generatePath, useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
 import { useAuth } from "../../hooks/useAuth"
 import Meta from "antd/es/card/Meta";
+import { getStorage, ref } from "firebase/storage";
 
 const { Header, Sider, Content } = Layout;
 
 const BookItem = ({book}) => {
   const navigate = useNavigate();
+    const [user,token,isAuth] = useAuth()
+    const config = {
+        headers: {
+            'content-type': 'application/json',
+            'authorization': 'Bearer ' + token,
+        }
+    }
   const routeChange = (bookId) => {
     const path = generatePath(PATHS.bookDetails, { bookId });
     navigate(path);
   };
+  const addToFavorite =async () =>{
+    const body = {
+        book_id: book.id
+    }
+
+    try
+    {
+        const {data} = await  axios.post(API_PATHS.favorite,body,config)
+        openNotification()
+    }catch (e) {
+        console.log(e)
+    }
+  }
+    const openNotification = () => {
+        notification.info({
+            message: `Add To Favorite`,
+            description:"Add success",
+            placement:"bottomLeft",
+        });
+    };
   return (
     <Col className={styles.bookItem} span={5}>
       <div className={styles.bookImg} onClick={
@@ -42,7 +70,9 @@ const BookItem = ({book}) => {
               title={<div style={{ width: '180px', wordWrap: 'break-word', whiteSpace: 'break-spaces', textAlign: 'center' }}>{book.name}</div>}
             />
         </Card>
+
       </div>
+        <HeartFilled onClick={addToFavorite} style={{fontSize:'30px'}} className={styles.favorites}/>
     </Col>
   );
 };
@@ -58,6 +88,8 @@ function Homepage() {
   const [maxPrice,setmaxPrice] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const [user,token,isAuth] = useAuth()
+  
+  
   useEffect(() => {
     getBooks(0, 8)
   },[])
