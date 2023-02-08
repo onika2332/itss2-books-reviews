@@ -68,9 +68,7 @@ function Profile() {
 
    return favorites.map((book, idx) => {
       return (
-        <Row key={idx}>
         <FavoriteItem book={book} />
-      </Row>
       )
     })
   }
@@ -115,17 +113,17 @@ function Profile() {
           <Content>
             {userInfo != null ? <Row>
               <Col className={styles.avatarWrap} span={4} offset={2}>
-                <AvatarPart image={userInfo.profile_image} />
+                <AvatarPart fetchProfile={fetchProfile} image={userInfo.profile_image} />
                 <span className={styles.name}>{userInfo.name}</span>
               </Col>
               <Col className={styles.contact} span={12} offset={1}>
                 <Row>
-                  <span className={styles.labelContact}>メール:</span>
+                  <span className={styles.labelContact}>メール: </span>
                   <span className={styles.text}> {userInfo.email}</span>
                 </Row>
                 <Row>
-                  <span className={styles.labelContact}>電話番号:</span>
-                  <span className={styles.text}> {userInfo.phone}</span>
+                  <span className={styles.labelContact}>電話番号: </span>
+                  <span className={styles.text}>  {userInfo.phone}</span>
                 </Row>
               </Col>
               <Col className={styles.avatarWrap} span={2} offset={2}>
@@ -155,8 +153,10 @@ function Profile() {
                 <p className={styles.label}>興味の本のリスト</p>
               </Col>
             </Row>
+            <div className={styles.favoritesBook}>
+                {favoriteBooks()}
+            </div>
 
-            {favoriteBooks()}
             
           </Content>
         </Layout>

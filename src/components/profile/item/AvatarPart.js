@@ -2,7 +2,7 @@ import { Button, Image, Modal, Space } from 'antd';
 import React, { useState } from 'react';
 import UserProfile from './UserProfile';
 import styles from "./styles.module.scss";
-const AvatarPart = ({image}) => {
+const AvatarPart = ({fetchProfile,image}) => {
   const [avatar, setAvatar] = useState(image);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (e) => {
@@ -37,7 +37,7 @@ const AvatarPart = ({image}) => {
       </div>
 
       <Modal title="Upload Avatar" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <UserProfile setAvatar={setAvatar} />
+        <UserProfile fetchProfile={fetchProfile} setAvatar={setAvatar} />
       </Modal>
     </>
   );

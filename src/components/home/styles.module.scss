@@ -40,6 +40,17 @@
     margin: auto;
     padding-top: 2em;
   }
+  .favorites {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    color: rosybrown;
+
+  }
+  .favorites:hover {
+    color: #7cb305;
+
+  }
   // width: 100%;
 }
 

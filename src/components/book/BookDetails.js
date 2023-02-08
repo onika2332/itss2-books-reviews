@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../config/paths";
 import { useAuth } from "../../hooks/useAuth"
 import CustomComment from "../comment/CustomComment";
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
+import { storage } from '../../firebase/firebase';
 function BookDetails() {
 
   const navigate = useNavigate();
@@ -16,14 +18,16 @@ function BookDetails() {
   const [rating, setRating] = useState(null);
   const [isRated, setIsRated] = useState(null);
   const [rateInput, setRateInput] = useState(null);
-  const [commentContent,setCommentContent] = useState(null);
+  const [commentContent, setCommentContent] = useState(null);
   const [isRatingModelOpen, setIsRatingModalOpen] = useState(false);
   const [book, setBook] = useState(null)
   const [relatedBook, setRelatedBook] = useState([])
   const [comments, setComments] = useState([])
-  const [user,token,isAuth] = useAuth()
+  const [user, token, isAuth] = useAuth()
   let { bookId } = useParams();
-  const rate = [1,2,3,4,5]
+  const [images, setImages] = useState([]) // preview images
+  const [loading, setLoading] = useState(true)
+  const rate = [1, 2, 3, 4, 5]
   const config = {
     headers: {
       'content-type': 'application/json',
@@ -31,27 +35,38 @@ function BookDetails() {
     }
 
   }
+
   useEffect(() => {
     fetchBook();
     fetchComment();
     fetchIsRated();
   }, [])
 
+  const fetchImage = async (folderRef) => {
+    const { items } = await listAll(folderRef)
+
+    items.forEach(async (item) => {
+      const data = await getDownloadURL(item)
+      console.log(data);
+      setImages(images => [...images, data])
+    })
+    setLoading(false)
+  }
   const showRatingModal = () => {
     setIsRatingModalOpen(true);
   };
 
   const handleRating = async () => {
-      const params = {
-          "book-id": bookId,
-          "content": commentContent,
-          "star":rateInput
-      };
+    const params = {
+      "book-id": bookId,
+      "content": commentContent,
+      "star": rateInput
+    };
     await axios.post(COMMENT_API_PATH.comment, params, config)
       .then(() => {
         fetchBook()
         fetchIsRated()
-          fetchComment()
+        fetchComment()
 
       })
     setIsRatingModalOpen(false);
@@ -61,18 +76,20 @@ function BookDetails() {
   };
 
   const fetchBook = async () => {
-    await axios.get(BOOK_API_PATH.book + "?id=" + bookId)
-      .then(data => data.data)
-      .then(data => {
-        setBook(data.books[0])
-        if(  data.books[0].rate_times !== 0)
-          setRating(Math.round((data.books[0].star / data.books[0].rate_times)))
-        else setRating(0)
-        fetchRelatedBook(data.books[0].category);
-      })
-      .catch(err => console.log(err))
+    const { data } = await axios.get(BOOK_API_PATH.book + "?id=" + bookId)
+    console.log(data);
+    setBook(data.books[0])
+    if (data.books[0].rate_times !== 0)
+      setRating(Math.round((data.books[0].star / data.books[0].rate_times)))
+    else setRating(0)
+    fetchRelatedBook(data.books[0].category);
+
+    let url = `uploads/books/previews/${data.books[0].name}/`;
+    const gsReference = ref(storage, url);
+    await fetchImage(gsReference)
 
   }
+  console.log(images);
   const fetchComment = async () => {
     await axios.get(COMMENT_API_PATH.comment + "?bookId=" + bookId)
       .then(data => data.data)
@@ -92,7 +109,7 @@ function BookDetails() {
 
   }
   const fetchIsRated = async () => {
-    await axios.get(BOOK_API_PATH.rated + "?bookId="+ bookId, config)
+    await axios.get(BOOK_API_PATH.rated + "?bookId=" + bookId, config)
       .then(data => data.data)
       .then(data => {
         setIsRated(data)
@@ -106,12 +123,13 @@ function BookDetails() {
         'authorization': 'Bearer ' + token,
       },
     })
-      .then(() => 
+      .then(() =>
         fetchComment()
       )
   }
   return (
-    <Row className={styles.container}>
+    <>
+    {!loading ? <Row className={styles.container}>
       {book !== null ? <Col span={18}>
         <Tooltip title="戻る">
           <Button type="primary" shape="circle" icon={<LeftOutlined />} onClick={() => { navigate(PATHS.home); }} />
@@ -127,9 +145,9 @@ function BookDetails() {
               <h1 className={styles.bookName}>{book.name}</h1>
               <Rate allowHalf value={rating} disabled />
               {rating ? <span className={styles.ratingNumber}>{rate[rating - 1]}</span> : ''}
-             <p>
-                 <span>{book.rate_times} rated</span>
-             </p>
+              <p>
+                <span>{book.rate_times} rated</span>
+              </p>
               <div style={{ marginTop: '10px' }}>
                 <h1>{book.price} 円</h1>
               </div>
@@ -140,12 +158,12 @@ function BookDetails() {
               <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal} disabled={isRated}>レーティング</Button>
               <Modal title="レーティング" open={isRatingModelOpen} onOk={handleRating} onCancel={handleRatingCancel}>
                 {/* user rate here */}
-               <div style={{'padding':'5px'}}>
-                   <label>Star:</label><br/>
-                   <Rate value={rateInput} onChange={(e) => setRateInput(e)} />
-               </div>
-                  <label>Comment:</label>
-                  <TextArea value={commentContent} onChange={(e)=>setCommentContent(e.target.value)}></TextArea>
+                <div style={{ 'padding': '5px' }}>
+                  <label>Star:</label><br />
+                  <Rate value={rateInput} onChange={(e) => setRateInput(e)} />
+                </div>
+                <label>Comment:</label>
+                <TextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)}></TextArea>
               </Modal>
             </Col>
           </Row>
@@ -158,9 +176,9 @@ function BookDetails() {
           {/*<TextArea rows={4} className={styles.inputComment} placeholder="コメントを入力してください" value={commentInput} onChange={(e) => setCommentInput(e.target.value)} />*/}
           {/*<Button type="primary" className={styles.commentSubmit} onClick={postComment}>コメント</Button>*/}
           <div className={styles.listComment}>
-            {comments.map((comment,idx) => <Card key={idx} className={styles.listCommentItem}>
+            {comments.map((comment, idx) => <Card key={idx} className={styles.listCommentItem}>
               <Row>
-                  <CustomComment commentProp={comment}/>
+                <CustomComment commentProp={comment} />
               </Row>
             </Card>)}
           </div>
@@ -169,7 +187,7 @@ function BookDetails() {
       <Col span={6}>
         <h3 className={styles.relatedBooksTitle}> 付属の本 </h3>
         <div className="site-card-border-less-wrapper">
-          {relatedBook.length !== 0 ? relatedBook.map((book,idex) => <Card key={idex} bordered={false} className={styles.relatedBook}>
+          {relatedBook.length !== 0 ? relatedBook.map((book, idex) => <Card key={idex} bordered={false} className={styles.relatedBook}>
             <Image
               width={100}
               height={100}
@@ -180,17 +198,21 @@ function BookDetails() {
             <br />
             <span>{book.name}</span><br></br>
             <StarFilled style={{ color: '#FFFF00', paddingLeft: '60px' }} />
-            { book.rate_times === 0 &&
+            {book.rate_times === 0 &&
               <span style={{ marginLeft: '5px' }}>    0</span>
             }
-            { book.rate_times !== 0 &&
+            {book.rate_times !== 0 &&
               <span style={{ marginLeft: '5px' }}> {Math.round((book.star / book.rate_times))} </span>
             }
           </Card>) : <h1>付属の本がない</h1>
           }
         </div>
       </Col>
-    </Row>
+    </Row> : <h1>Loading</h1>
+    
+  }
+    </>
+    
   )
 }
 
