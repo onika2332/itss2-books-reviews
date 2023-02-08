@@ -35,7 +35,12 @@ const BookItem = ({book}) => {
             }}
             cover={<img alt="example" src={book.image_url} height='300px'/>}
         >
-            <Meta style={{fontWeight:'bold'}} title={book.name}/>
+            <Meta style={{
+              fontWeight:'bold',
+              height: '80px',
+            }} 
+              title={<div style={{ width: '180px', wordWrap: 'break-word', whiteSpace: 'break-spaces', textAlign: 'center' }}>{book.name}</div>}
+            />
         </Card>
       </div>
     </Col>
@@ -97,7 +102,6 @@ function Homepage() {
     getItem('ホームページ', '1', <PieChartOutlined />, PATHS.home),
     getItem('プロファイル', '2', <DesktopOutlined />, PATHS.profile),
     getItem('二つの本を比べる', '3', <ContainerOutlined />, PATHS.compare),
-    getItem('模擬試験', '4', <ContainerOutlined />, PATHS.home),
   ]
 
   return (
