@@ -25,9 +25,10 @@ function FavoriteItem({book}) {
       <Card className={styles.favoriteItem}
           hoverable
           style={{
-              width: 300,
+              width: 250,
           }}
-          cover={<img alt="example" src={book.image_url}/>}
+          cover={<img alt="example" style={{height: 350}} src={book.image_url}/>}
+          onClick={handleClick}
       >
           <Meta title={book.name} description={bookDescription()} />
       </Card>

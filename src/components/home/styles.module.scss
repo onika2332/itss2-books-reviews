@@ -44,11 +44,12 @@
     position: absolute;
     top: 5px;
     left: 20px;
-    color: rosybrown;
-
+    color: white;
+    opacity: 0.5;
   }
   .favorites:hover {
-    color: #7cb305;
+    opacity: 1;
+    color: red;
 
   }
   // width: 100%;
