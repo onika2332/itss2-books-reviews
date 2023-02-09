@@ -72,7 +72,7 @@ const BookItem = ({book}) => {
         </Card>
 
       </div>
-        <HeartFilled onClick={addToFavorite} style={{fontSize:'30px'}} className={styles.favorites}/>
+      <HeartFilled onClick={addToFavorite} style={{fontSize:'30px'}} className={styles.favorites}/>
     </Col>
   );
 };

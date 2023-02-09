@@ -34,10 +34,9 @@ function Profile() {
   }, [])
   const fetchProfile = async () => {
     const { data } = await axios.get(API_PATHS.profile, config)
-    const { user_info, favorite_books } = data;
     setLoading(false)
-    setUserInfo(user_info)
-    setFavorites(favorite_books);
+    setUserInfo(data["user-info"])
+    setFavorites(data["favorite-books"]);
   }
 
   function getItem(label, key, icon, url, children, type) {
@@ -125,11 +124,11 @@ function Profile() {
                   <span className={styles.text}>  {userInfo.phone}</span>
                 </Row>
               </Col>
-              <Col className={styles.avatarWrap} span={2} offset={2}>
+              {/* <Col className={styles.avatarWrap} span={2} offset={2}>
                 <Button className={styles.btn} onClick={handleClick}>
                   支払い
                 </Button>
-              </Col>
+              </Col> */}
             </Row> : <h5>Loading</h5>}
 
             <Divider />
