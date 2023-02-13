@@ -1,0 +1,56 @@
+version: "3.8"
+services:
+  web:
+    image: crisphung/itss-be:v1
+    container_name: itss-be
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "db"
+    networks:
+      - backend
+      - frontend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/itjapanesedb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=crquan07
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    volumes:
+      - images-vol:/app/uploads:rw
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: crquan07
+      POSTGRES_USER: postgres
+      POSTGRES_DB: itjapanesedb
+    networks:
+      - backend
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+  frontend:
+    image: crisphung/itss-fe:v1
+    container_name: itss-fe
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+
+    env_file:
+      - .env
+    volumes:
+      - ./conf/templates/:/etc/nginx/templates
+
+networks:
+  backend:
+  frontend:
+
+volumes:
+  pg-data:
+    driver: local
+  images-vol:
+    driver: local

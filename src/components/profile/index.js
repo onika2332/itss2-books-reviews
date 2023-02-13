@@ -34,9 +34,10 @@ function Profile() {
   }, [])
   const fetchProfile = async () => {
     const { data } = await axios.get(API_PATHS.profile, config)
+    console.log(data);
     setLoading(false)
-    setUserInfo(data["user-info"])
-    setFavorites(data["favorite-books"]);
+    setUserInfo(data["user_info"])
+    setFavorites(data["favorite_books"]);
   }
 
   function getItem(label, key, icon, url, children, type) {

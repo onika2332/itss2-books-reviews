@@ -5,7 +5,7 @@ WORKDIR /usr/share/nginx/html
 # Nginx Config
 RUN rm -rf /etc/nginx/conf.d
 
-COPY conf /etc/nginx
+COPY  conf/conf.d /etc/nginx/conf.d
 
 COPY build/ .
 
