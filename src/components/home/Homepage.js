@@ -131,9 +131,9 @@ function Homepage() {
     };
   }
   const items = [
-    getItem('ホームページ', '1', <PieChartOutlined />, PATHS.home),
-    getItem('プロファイル', '2', <DesktopOutlined />, PATHS.profile),
-    getItem('二つの本を比べる', '3', <ContainerOutlined />, PATHS.compare),
+    getItem('HomePage', '1', <PieChartOutlined />, PATHS.home),
+    getItem('Profile', '2', <DesktopOutlined />, PATHS.profile),
+    getItem('Compare Books', '3', <ContainerOutlined />, PATHS.compare),
   ]
 
   return (
@@ -156,12 +156,12 @@ function Homepage() {
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
           {user.length >= 25 &&
-              <span className={styles.username}>こんにちは{user.slice(0,25)}...</span>
+              <span className={styles.username}>Xin chào {user.slice(0,25)}...</span>
           }
           {user.length < 25 &&
-              <span className={styles.username}>こんにちは{user}</span>
+              <span className={styles.username}>Xin chào {user}</span>
           }
-          <Button type="primary" className={styles.logoutButton} onClick={() => handleSignout()}>ログアウト</Button>
+          <Button type="primary" className={styles.logoutButton} onClick={() => handleSignout()}>Đăng xuất</Button>
         </Header>
         <Content
           className="site-layout-background"
@@ -172,15 +172,15 @@ function Homepage() {
           }}
         >
           <div className={styles.intro}>
-            <span className={styles.title}>本一覧</span>
+            <span className={styles.title}>Danh sách Sách</span>
           </div>
-          <Input style={{ width: 150 }} placeholder="テキスト" value={text} onChange={ (e) => {
+          <Input style={{ width: 150, marginRight: 10 }} placeholder="Tên sách" value={text} onChange={ (e) => {
             setText(e.target.value)
           }}/>
           <Select
-            style={{ width: 150 }}
+            style={{ width: 150, paddingRight: 10 }}
             onChange={ (value) => setLevel(value)}
-            placeholder="レベル"
+            placeholder="Trình độ"
             allowClear
             options={[
               {
@@ -206,9 +206,9 @@ function Homepage() {
             ]}
           />
           <Select
-            style={{ width: 150 }}
+            style={{ width: 150, paddingRight: 10 }}
             onChange={(value) => {setCategory(value)}}
-            placeholder="スキル"
+            placeholder="Kỹ năng"
             allowClear
             options={[
               {
@@ -233,11 +233,11 @@ function Homepage() {
               },
             ]}
           />
-          <Input style={{ width: 150 }} placeholder="最低価格" value={minPrice} onChange={ (e) => setminPrice(e.target.value)}/>
-          <Input style={{ width: 150 }} placeholder="最大価格" value={maxPrice} onChange={ (e) => setmaxPrice(e.target.value)}/>
+          <Input style={{ width: 150, marginRight: 10 }} placeholder="Giá thấp nhất" value={minPrice} onChange={ (e) => setminPrice(e.target.value)}/>
+          <Input style={{ width: 150, marginRight: 10 }} placeholder="Giá cao nhất" value={maxPrice} onChange={ (e) => setmaxPrice(e.target.value)}/>
           <Button type="primary" onClick={() => {
             getBooks(0, 8, level, category, text, minPrice, maxPrice)
-          }}>フィルター</Button>
+          }}>Lọc</Button>
           <Row className={styles.listBooks} gutter={20}>
             {
               books.length !== 0 ? books.map((book,idx) => <BookItem key={idx} book={book} />) : <span className={styles.notFound}>見つかりません</span>

@@ -68,7 +68,7 @@ function TopPage() {
                             () => {
                                 navigate(PATHS.login);
                             }
-                        }>ログイン</Button>
+                        }>Đăng nhập</Button>
                     </Col>
                 </Row>
             </Header>

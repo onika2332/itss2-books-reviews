@@ -66,10 +66,10 @@ function Signup() {
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
-                <p className={styles.title}>サインアップ</p>
+                <p className={styles.title}>Đăng ký tài khoản</p>
                 <Divider />
                 <Form.Item
-                label="メールアドレス："
+                label="Email："
                 labelAlign=""
                 name="username"
                 rules={[
@@ -83,7 +83,7 @@ function Signup() {
                 </Form.Item>
 
                 <Form.Item
-                label="パスワード："
+                label="Mật khẩu："
                 name="password"
                 rules={[
                     {
@@ -102,13 +102,13 @@ function Signup() {
                 }}
                 >
                     <Button className={styles.btnSignUpPage} type="primary" htmlType="submit">
-                        サインアップ
+                        Đăng ký
                     </Button>
                 </Form.Item>
                 
                 <Divider style={{marginTop: '50px'}}/>
                 <div>
-                <span>アカウントを持っています？</span>
+                <span>Bạn đã có tài khoản?</span>
                 <Button 
                     className={styles.btnSignUp} 
                     type="primary"
@@ -118,7 +118,7 @@ function Signup() {
                         }
                     }
                 >
-                    ログイン
+                    Đăng nhập
                 </Button>
                 </div>
             </Form>

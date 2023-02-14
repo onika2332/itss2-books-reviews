@@ -76,12 +76,11 @@ function Login() {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
-        // title="ログイン"
       >
-        <p className={styles.title}>ログイン</p>
+        <p className={styles.title}>Đăng nhập</p>
         <Divider />
         <Form.Item
-          label="メールアドレス："
+          label="Email："
           labelAlign=""
           name="username"
           rules={[
@@ -95,7 +94,7 @@ function Login() {
         </Form.Item>
 
         <Form.Item
-          label="パスワード："
+          label="Mật khẩu："
           name="password"
           rules={[
             {
@@ -114,15 +113,12 @@ function Login() {
           }}
         >
           <Button className={styles.btnLogin} type="primary" htmlType="submit">
-            ログイン
+            Đăng nhập
           </Button>
         </Form.Item>
-        <Link type="primary" htmlType="submit">
-          <a href="/">パスワードを忘れますか？</a>
-        </Link>
         <Divider />
         <div>
-          <span>新しいアカウント</span>
+          <span>Tạo tài khoản mới</span>
           <Button 
             className={styles.btnSignUp}
             type="primary"
@@ -132,7 +128,7 @@ function Login() {
               }
             }
           >
-            登録
+            Đăng ký
           </Button>
         </div>
       </Form>

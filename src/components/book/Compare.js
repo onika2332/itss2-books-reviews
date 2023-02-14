@@ -58,9 +58,9 @@ function Compare() {
     };
   }
   const items = [
-    getItem('ホームページ', '1', <PieChartOutlined />, PATHS.home),
-    getItem('プロファイル', '2', <DesktopOutlined />, PATHS.profile),
-    getItem('二つの本を比べる', '3', <ContainerOutlined />, PATHS.compare),
+    getItem('HomePage', '1', <PieChartOutlined />, PATHS.home),
+    getItem('Profile', '2', <DesktopOutlined />, PATHS.profile),
+    getItem('Compare Books', '3', <ContainerOutlined />, PATHS.compare),
   ]
 
   
@@ -90,25 +90,25 @@ function Compare() {
           }}
         >
           <Select
-            style={{ width: 500 }}
+            style={{ width: 500, paddingRight: 10 }}
             onChange={ (value) => {
                 setBook1(value)
               }
             }
-            placeholder="本１"
+            placeholder="Sách 1"
             options={books}
           />
           <Select
-            style={{ width: 500 }}
+            style={{ width: 500, paddingRight: 10 }}
             onChange={(value) => {setBook2(value)}}
-            placeholder="本2"
+            placeholder="Sách 2"
             options={books}
           />
           <Button disabled={book1 === undefined || book2 === undefined} onClick={() => {
             navigate({
               pathname: PATHS.comparingBooks, 
               search: createSearchParams({ book1: book1, book2: book2}).toString()})
-          }}>比べる</Button>
+          }}>So sánh</Button>
         </Content>
       </Layout>
     </Layout>
