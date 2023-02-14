@@ -257,8 +257,8 @@ function BookDetails() {
               {/* <Button shape="circle" icon={<HeartFilled />} /> */}
               <br />
               {/* disable if user already rate */}
-              <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal} disabled={isRated}>レーティング</Button>
-              <Modal title="レーティング" open={isRatingModelOpen} onOk={handleRating} onCancel={handleRatingCancel}>
+              <Button type="primary" style={{ marginTop: '10px' }} onClick={showRatingModal} disabled={isRated}>Đánh giá</Button>
+              <Modal title="Đánh giá" open={isRatingModelOpen} onOk={handleRating} onCancel={handleRatingCancel}>
                 {/* user rate here */}
                 <div style={{ 'padding': '5px' }}>
                   <label>Star:</label><br />
@@ -274,9 +274,7 @@ function BookDetails() {
           </Card>
         </div>
         <div className='Comment'>
-          <h2 className={styles.commentTitle}>コメント</h2>
-          {/*<TextArea rows={4} className={styles.inputComment} placeholder="コメントを入力してください" value={commentInput} onChange={(e) => setCommentInput(e.target.value)} />*/}
-          {/*<Button type="primary" className={styles.commentSubmit} onClick={postComment}>コメント</Button>*/}
+          <h2 className={styles.commentTitle}>Bình luận</h2>
           <div className={styles.listComment}>
             {comments.map((comment, idx) => <Card key={idx} className={styles.listCommentItem}>
               <Row>
@@ -287,7 +285,7 @@ function BookDetails() {
         </div>
       </Col> : <h1>読み込んでいます...</h1>}
       <Col span={6}>
-        <h3 className={styles.relatedBooksTitle}> 付属の本 </h3>
+        <h3 className={styles.relatedBooksTitle}> Sách liên quan </h3>
         <div className="site-card-border-less-wrapper">
           {relatedBook.length !== 0 ? relatedBook.map((book, idex) => <Card key={idex} bordered={false} className={styles.relatedBook}>
             <Image
@@ -306,7 +304,7 @@ function BookDetails() {
             {book.rate_times !== 0 &&
               <span style={{ marginLeft: '5px' }}> {Math.round((book.star / book.rate_times))} </span>
             }
-          </Card>) : <h1>付属の本がない</h1>
+          </Card>) : <h1>Không có sách liên quan</h1>
           }
         </div>
       </Col>

@@ -51,9 +51,9 @@ function Profile() {
     };
   }
   const items = [
-    getItem("ホームページ", "1", <PieChartOutlined />, PATHS.home),
-    getItem("プロファイル", "2", <DesktopOutlined />, PATHS.profile),
-    getItem("二つの本を比べる", "3", <ContainerOutlined />, PATHS.compare),
+    getItem("Trang chủ", "1", <PieChartOutlined />, PATHS.home),
+    getItem("Profile", "2", <DesktopOutlined />, PATHS.profile),
+    getItem("Compare Books", "3", <ContainerOutlined />, PATHS.compare),
   ];
 
 
@@ -71,7 +71,12 @@ function Profile() {
       )
     })
   }
-  const handleSignout = () => { };
+  const handleSignout = () => {
+    localStorage.removeItem("APP_TOKEN");
+    localStorage.removeItem("ACTIVE_USER");
+    localStorage.removeItem("IS_AUTH");
+    navigate(PATHS.topPage)
+  }
   const handleClick = () => { };
 
   return (
@@ -106,7 +111,7 @@ function Profile() {
               className={styles.logoutButton}
               onClick={() => handleSignout()}
             >
-              ログアウト
+              Đăng xuất
             </Button>
           </Header>
           <Content>
@@ -117,11 +122,11 @@ function Profile() {
               </Col>
               <Col className={styles.contact} span={12} offset={1}>
                 <Row>
-                  <span className={styles.labelContact}>メール: </span>
+                  <span className={styles.labelContact}>Email: </span>
                   <span className={styles.text}> {userInfo.email}</span>
                 </Row>
                 <Row>
-                  <span className={styles.labelContact}>電話番号: </span>
+                  <span className={styles.labelContact}>Số điện thoại: </span>
                   <span className={styles.text}>  {userInfo.phone}</span>
                 </Row>
               </Col>
@@ -149,7 +154,7 @@ function Profile() {
 
             <Row>
               <Col span={22} offset={2}>
-                <p className={styles.label}>興味の本のリスト</p>
+                <p className={styles.label}>Danh sách sách yêu thích</p>
               </Col>
             </Row>
             <div className={styles.favoritesBook}>

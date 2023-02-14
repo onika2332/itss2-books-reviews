@@ -60,22 +60,22 @@ function ComparingBooks() {
       
       const columns = [
         {
-          title: '本タイトル',
+          title: 'Tiêu đề',
           dataIndex: 'name',
           key: 'name',
         },
         {
-          title: '値段',
+          title: 'Giá',
           dataIndex: 'price',
           key: 'price',
         },
         {
-          title: '勉強時間',
+          title: 'Thời gian học',
           dataIndex: 'time',
           key: 'time',
         },
         {
-            title: '分類形式',
+            title: 'Thể loại',
             dataIndex: 'category',
             key: 'category',
           },
@@ -86,7 +86,7 @@ function ComparingBooks() {
             <div className={styles.container}>
             <Row className='Book'>
                 <Col span={12}>
-                    <Tooltip title="戻る">
+                    <Tooltip title="Quay lại">
                         <Button type="primary" shape="circle" icon={<LeftOutlined />} onClick={
                             () => {
                                 navigate(PATHS.home);
@@ -139,7 +139,7 @@ function ComparingBooks() {
                 </Col>
             </Row>
             <Table dataSource={dataSource} columns={columns} className={styles.CompareTable} />
-            <h1 className={styles.CompareCommentTitle}>コメント</h1>
+            <h1 className={styles.CompareCommentTitle}>Bình luận</h1>
            {
             comments.length !== 0 ?
             <Row>
@@ -156,7 +156,7 @@ function ComparingBooks() {
                                     <h3 style={{color: 'white'}}>{comment.created_by}</h3>
                                     <p> {comment.content}</p>
                                 </Col>
-                            </Row>): <h1> コメントがありません。</h1>}
+                            </Row>): <h1> Chưa có bình luận cho sách này.</h1>}
                         </Card>
                     </div>
                 </div>
@@ -174,17 +174,17 @@ function ComparingBooks() {
                                     <h3 style={{color: 'white'}}>{comment.created_by}</h3>
                                     <p> {comment.content}</p>
                                 </Col>
-                            </Row>): <h1>コメントがありません。</h1>
+                            </Row>): <h1>Chưa có bình luận cho sách này.</h1>
                             }
                         </Card>
                     </div>
                 </div>
             </Col>
         </Row> :
-        <h1>コメントを読み込んでいます....</h1>
+        <h1>Đang tải bình luận....</h1>
            }
 
-        </div>: <h1>読み込んでいます...</h1>}
+        </div>: <h1>Đang tải bình luận....</h1>}
         </div>
 
     )
